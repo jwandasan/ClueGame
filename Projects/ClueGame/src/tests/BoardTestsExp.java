@@ -1,3 +1,4 @@
+
 package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,8 +9,8 @@ import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import expirement.TestBoard;
-import expirement.TestBoardCell;
+import experiment.TestBoard;
+import experiment.TestBoardCell;
 
 class BoardTestsExp {
 	TestBoard board;
@@ -56,7 +57,8 @@ class BoardTestsExp {
 		Assert.assertTrue(targets.contains(board.getCell(0, 3)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 0)));
 	}		
-		@Test
+	
+	@Test
 	public void testTargetsMixed() {
 		board.getCell(0, 2).setOccupied(true);
 		board.getCell(0,2).setIsRoom(true);

@@ -1,4 +1,4 @@
-package expirement;
+package experiment;
 import java.util.*;
 
 
