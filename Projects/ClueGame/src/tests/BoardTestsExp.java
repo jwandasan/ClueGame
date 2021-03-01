@@ -1,4 +1,3 @@
-
 package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,8 +8,8 @@ import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import experiment.TestBoard;
-import experiment.TestBoardCell;
+import expirement.TestBoard;
+import expirement.TestBoardCell;
 
 class BoardTestsExp {
 	TestBoard board;
@@ -21,25 +20,27 @@ class BoardTestsExp {
 	@Test
 	public void testAdjacency() {
 		TestBoardCell cell = board.getCell(0, 0);
+		board.calcAdj(cell);
+		TestBoardCell[][] testGrid = board.getGrid();
 		Set<TestBoardCell> testList = cell.getAdjList();
-		Assert.assertTrue(testList.contains(board.getCell(1, 0)));
-		Assert.assertTrue(testList.contains(board.getCell(0, 1)));
-		Assert.assertEquals(2,  testList.size());
+		Assert.assertTrue(testList.contains(testGrid[1][0]));
+		Assert.assertTrue(testList.contains(testGrid[0][1]));
+		Assert.assertEquals(2, testList.size());
 	}
 	@Test
 	public void testEmpty() {
 		TestBoardCell cell = board.getCell(0, 0);
 		Set<TestBoardCell> testList = cell.getAdjList();
-		Assert.assertFalse(testList.isEmpty());
+		Assert.assertTrue(testList.isEmpty());
 	}
 	
 	@Test
 	public void testOneOccupied() {
 		TestBoardCell cell = board.getCell(0,0);
 		Set<TestBoardCell> testList = cell.getAdjList();
-		Assert.assertFalse(testList.isEmpty());
+		Assert.assertTrue(testList.isEmpty());
 	}
-	@Test
+	//@Test
 	public void testOneRoom() {
 		
 	}
@@ -57,8 +58,7 @@ class BoardTestsExp {
 		Assert.assertTrue(targets.contains(board.getCell(0, 3)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 0)));
 	}		
-	
-	@Test
+		@Test
 	public void testTargetsMixed() {
 		board.getCell(0, 2).setOccupied(true);
 		board.getCell(0,2).setIsRoom(true);
