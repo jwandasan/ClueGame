@@ -59,17 +59,18 @@ class BoardTestsExp {
 		Assert.assertTrue(targets.contains(testGrid[0][3]));
 		Assert.assertTrue(targets.contains(testGrid[1][0]));
 	}		
-		//@Test
+		@Test
 	public void testTargetsMixed() {
 		board.getCell(0, 2).setOccupied(true);
 		board.getCell(0,2).setIsRoom(true);
 		TestBoardCell cell = board.getCell(0, 3);
 		board.calcTargets(cell, 3);
+		TestBoardCell[][] testGrid = board.getGrid();
 		Set<TestBoardCell> targets = board.getTargets();
 		Assert.assertEquals(3, targets.size());
-		Assert.assertTrue(targets.contains(board.getCell(1, 2)));
-		Assert.assertTrue(targets.contains(board.getCell(2, 2)));
-		Assert.assertTrue(targets.contains(board.getCell(3, 3)));
+		Assert.assertTrue(targets.contains(testGrid[1][1]));
+		Assert.assertTrue(targets.contains(testGrid[2][2]));
+		Assert.assertTrue(targets.contains(testGrid[3][3]));
 	}
 	
 }

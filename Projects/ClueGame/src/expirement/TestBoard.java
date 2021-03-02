@@ -28,7 +28,7 @@ public class TestBoard {
 		Set<TestBoardCell> tempAdj = startCell.getAdjList();
 		
 		for (TestBoardCell possMove: tempAdj) {
-			if (!(visited.contains(possMove))) {
+			if (!(visited.contains(possMove)) && (!(possMove.getOccupied()) && (!(possMove.getRoom())))) {
 				visited.add(possMove);
 				if (pathlength != 1) {
 					calcTargets(possMove, pathlength - 1);
@@ -36,7 +36,9 @@ public class TestBoard {
 					targets.add(possMove);
 				}
 				visited.remove(possMove);
-			} 
+			} else if (!(visited.contains(possMove)) && (possMove.getOccupied()) && (possMove.getRoom())){
+				calcTargets(possMove, pathlength);
+			}
 		}
 	}
 	
