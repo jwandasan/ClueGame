@@ -12,6 +12,8 @@ import java.io.FileReader;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.DoorDirection;
@@ -34,39 +36,26 @@ class FileInitTest {
 	private static Board board;
 	
 	@BeforeAll
-	public static void setUP() {
+	public static void setUP() throws FileNotFoundException, BadConfigFormatException{
 		board = Board.getInstance();
-		board.setConfigFiles("ClueLayEJ.csv","ClueSetup.txt");
+		board.setConfigFiles("ClueLayoutEJ.csv","ClueSetup.txt");
 		board.initialize();
 	}
 	
 	
 	// Test used to ensure that files open, and that it is reading properly
-	@Test
-	public void testLayoutAndSetup() throws FileNotFoundException {
-		Set<String> allRooms = new HashSet<String>();
-		try {
-			FileReader fr = new FileReader("ClueSetup.txt");
-			Scanner in = new Scanner(fr);
-			String Room = "";
-
-			while(in.hasNextLine()) {
-				Room = in.nextLine();
-				allRooms.add(Room);
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found");
-		}
-		assertEquals(9, allRooms.size());
-		assertEquals(allRooms.iterator().next(), "//Rooms and room cards");
-	}
+	// This test was deemed unnecessary due to being achieved in the @BeforeAll statement
+	//@Test
+	//public void testLayoutAndSetup() throws FileNotFoundException, BadConfigFormatException {
+	
+	//}
 	
 	// Test to make sure that rooms have the correct labels associated with their name.
 	@Test
 	public void testRoomLabels() {
 		assertEquals("Atrium",board.getRoom('A').getName());
-		assertEquals("Reading Area",board.getRoom('R').getName());
-		assertEquals("Collectors Room",board.getRoom('C').getName());
+		assertEquals("Reading_Area",board.getRoom('R').getName());
+		assertEquals("Collectors_Room",board.getRoom('C').getName());
 		assertEquals("Office",board.getRoom('O').getName());
 		assertEquals("Closet",board.getRoom('T').getName());
 		assertEquals("Studio",board.getRoom('S').getName());
@@ -76,13 +65,13 @@ class FileInitTest {
 	// Test to make sure that each cell has the right initial that goes with its room name.
 	@Test
 	public void testCorrectInitial() {
-		BoardCell cell = board.getCell(1,1);
+		BoardCell cell = board.getCell(0,12);
 		assertEquals('A', cell.getInitial());
-		cell = board.getCell(14,1);
+		cell = board.getCell(1,2);
 		assertEquals('R', cell.getInitial());
-		cell = board.getCell(20,11);
+		cell = board.getCell(5,22);
 		assertEquals('C', cell.getInitial());
-		cell = board.getCell(6,20);
+		cell = board.getCell(15,20);
 		assertEquals('O', cell.getInitial());
 	}
 	
@@ -103,22 +92,22 @@ class FileInitTest {
 				if (cell.isDoorway())
 					numDoors++;
 			}
-		Assert.assertEquals(17, numDoors);
+		Assert.assertEquals(21, numDoors);
 	}
 
 	// Test to make sure that there is one of each door direction.
 	@Test
 	public void testFourDoorDirections() {
-		BoardCell cell = board.getCell(7, 12);
+		BoardCell cell = board.getCell(11, 7);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.LEFT, cell.getDoorDirection());
-		cell = board.getCell(15, 24);
+		cell = board.getCell(9, 19);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.UP, cell.getDoorDirection());
-		cell = board.getCell(19, 20);
+		cell = board.getCell(20, 19);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.RIGHT, cell.getDoorDirection());
-		cell = board.getCell(16, 9);
+		cell = board.getCell(18, 15);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.DOWN, cell.getDoorDirection());
 		// Test that walkways are not doors
@@ -131,7 +120,7 @@ class FileInitTest {
 	public void testCenterAndLabel() {
 		BoardCell cell = board.getCell(4,21);
 		assertTrue(cell.isRoomCenter());
-		cell = board.getCell(18, 19);
+		cell = board.getCell(21, 21);
 		assertTrue(cell.isRoomCenter());
 	}
 	

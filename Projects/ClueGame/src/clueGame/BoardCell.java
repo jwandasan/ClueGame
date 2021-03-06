@@ -2,6 +2,8 @@ package clueGame;
 
 import java.util.*;
 
+//import com.sun.org.apache.bcel.internal.generic.RETURN;
+
 /**
  * BoardCell Class
  * 
@@ -17,11 +19,16 @@ import expirement.TestBoardCell;
 public class BoardCell {
 	private int row, col;
 	private char initial;
+	private String label;
+	private String roomName;
 	private DoorDirection doorDirection;
 	private boolean roomLabel, roomCenter;
 	private char secretPassage;
 	private boolean isRoom, isOccupied;
 	private boolean isDoorway;
+	private boolean isCenter;
+	private boolean isSecret;
+	private Object roomDirection;
 	Set<BoardCell> adjList;
 	
 	public BoardCell(int row, int col) {
@@ -39,6 +46,7 @@ public class BoardCell {
 		return row;
 	}
 	
+	
 	public void addAdjacency(BoardCell cell) {
 		adjList.add(cell);
 	}
@@ -47,8 +55,49 @@ public class BoardCell {
 		return adjList;
 	}
 	
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
+	}
+	
+	public void setIsCenter(boolean isCenter) {
+		this.isCenter = isCenter;
+	}
+	
+	
+	public String getRoomName() {
+		return roomName;
+	}
+	
+	public void setLabel(String label) {
+		this.label = label;
+	}
+	
 	public void setIsRoom(boolean isRoom) {
 		this.isRoom = isRoom;
+	}
+	
+	public void setInitial(char initial) {
+		this.initial = initial;
+	}
+	
+	public void setIsOccupied(boolean isOccupied) {
+		this.isOccupied = isOccupied;
+	}
+	
+	public void setIsLabel(boolean isLabel) {
+		this.roomLabel = isLabel;
+	}
+	
+	public void setIsDoorway(boolean isDoorway) {
+		this.isDoorway = isDoorway;
+	}
+	
+	public void setDoorDirection(DoorDirection direction) {
+		this.doorDirection = direction;
+	}
+	
+	public String getLabel() {
+		return label;
 	}
 	
 	public boolean getRoom() {
@@ -75,7 +124,7 @@ public class BoardCell {
 		return doorDirection;
 	}
 	public boolean isRoomCenter() {
-		return roomCenter;
+		return isCenter;
 	}
 	public boolean isLabel() {
 		return roomLabel;
@@ -83,6 +132,8 @@ public class BoardCell {
 	public char getSecretPassage() {
 		return secretPassage;
 	}
-	
+	public void setSecretPassage(char sk) {
+		this.secretPassage = sk;
+	}
 	
 }
