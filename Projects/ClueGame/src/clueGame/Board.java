@@ -28,13 +28,13 @@ public class Board {
 	private String setupConfigFile; // Filename
 	private String name; 
 	private Room room = new Room(name);
-	private Set<BoardCell> visited;
-	private Set<BoardCell> targets;
+	private Set<BoardCell> visited = Collections.emptySet();
 	private Set<String> layoutData;
 	private Set<String> setupData;
 	private Map<Character, String> charToName = new HashMap<Character, String>();
 	private Map<Character, Room> roomMap = new HashMap<Character,Room>();
-	
+	private Set<BoardCell> adjList = Collections.emptySet();
+	private Set<BoardCell> targets = Collections.emptySet();
 	
 	private Board() {
 		super();
@@ -213,4 +213,15 @@ public class Board {
 		return returnVal;
 	}
 	
+	public Set<BoardCell> getAdjList(int i, int j) {
+		return adjList;
+	}
+
+	public void calcTargets(BoardCell cell, int i) {
+		
+	}
+
+	public Set<BoardCell> getTargets() {
+		return targets;
+	}
 }

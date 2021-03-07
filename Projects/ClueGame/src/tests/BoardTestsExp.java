@@ -44,7 +44,6 @@ class BoardTestsExp {
 	public void testOneRoom() {
 		
 	}
-	
 	@Test
 	public void testTargetsNormal() {
 		TestBoardCell cell = board.getCell(0, 0);
