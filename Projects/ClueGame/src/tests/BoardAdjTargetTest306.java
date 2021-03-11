@@ -36,6 +36,7 @@ public class BoardAdjTargetTest306 {
 	{
 		// we want to test a couple of different rooms.
 		// First, the study that only has a single door but a secret room
+		
 		Set<BoardCell> testList = board.getAdjList(2, 2);
 		assertEquals(2, testList.size());
 		assertTrue(testList.contains(board.getCell(4, 6)));
@@ -63,7 +64,7 @@ public class BoardAdjTargetTest306 {
 		assertEquals(2, testList.size());
 		assertTrue(testList.contains(board.getCell(14, 2)));
 		assertTrue(testList.contains(board.getCell(11, 2)));
-
+		
 		testList = board.getAdjList(19, 5);
 		assertEquals(3, testList.size());
 		assertTrue(testList.contains(board.getCell(21, 2)));
@@ -269,7 +270,7 @@ public class BoardAdjTargetTest306 {
 		assertTrue(targets.contains(board.getCell(15, 9)));
 		assertTrue(targets.contains(board.getCell(11, 5)));	
 		assertFalse( targets.contains( board.getCell(15, 7))) ;
-		assertFalse( targets.contains( board.getCell(17, 7))) ;
+		assertFalse( targets.contains( board.getCell(17, 7))) ; 
 	
 		// we want to make sure we can get into a room, even if flagged as occupied
 		board.getCell(12, 20).setOccupied(true);
@@ -278,6 +279,9 @@ public class BoardAdjTargetTest306 {
 		board.getCell(12, 20).setOccupied(false);
 		board.getCell(8, 18).setOccupied(false);
 		targets= board.getTargets();
+		for(BoardCell x: targets) {
+			System.out.println(x.getRow() + " " +x.getCol());
+		}
 		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCell(7, 17)));	
 		assertTrue(targets.contains(board.getCell(8, 16)));	

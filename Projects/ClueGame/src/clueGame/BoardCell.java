@@ -38,6 +38,8 @@ public class BoardCell {
 		adjList = new HashSet<BoardCell>();
 	}
 	
+	
+	// All getters
 	public int getCol() {
 		return col;
 	}
@@ -46,13 +48,53 @@ public class BoardCell {
 		return row;
 	}
 	
-	
-	public void addAdjacency(BoardCell cell) {
-		adjList.add(cell);
+	public String getRoomName() {
+		return roomName;
 	}
 	
+	public String getLabel() {
+		return label;
+	}
+	
+	public boolean getRoom() {
+		return isRoom;
+	}
+	
+	public char getInitial() {
+		return initial;
+	}
+	
+	public boolean getOccupied() {
+		return isOccupied;
+	}
+
+	public boolean isDoorway() {
+		return isDoorway;
+	}
+
+	public Object getDoorDirection() {
+		return doorDirection;
+	}
+	public boolean isRoomCenter() {
+		return isCenter;
+	}
+	public boolean isLabel() {
+		return roomLabel;
+	}
+	public char getSecretPassage() {
+		return secretPassage;
+	}
+	public boolean isSecret() {
+		return isSecret;
+	}
+	
+	// All setters
 	public Set<BoardCell> getAdjList() {
 		return adjList;
+	}
+	
+	public void setIsSecret(boolean isSecret) {
+		this.isSecret = isSecret;
 	}
 	
 	public void setRoomName(String roomName) {
@@ -61,11 +103,6 @@ public class BoardCell {
 	
 	public void setIsCenter(boolean isCenter) {
 		this.isCenter = isCenter;
-	}
-	
-	
-	public String getRoomName() {
-		return roomName;
 	}
 	
 	public void setLabel(String label) {
@@ -96,44 +133,19 @@ public class BoardCell {
 		this.doorDirection = direction;
 	}
 	
-	public String getLabel() {
-		return label;
-	}
-	
-	public boolean getRoom() {
-		return isRoom;
-	}
-	
-	public char getInitial() {
-		return initial;
-	}
 	
 	public void setOccupied(boolean isOccupied) {
 		this.isOccupied = isOccupied;
 	}
 	
-	public boolean getOccupied() {
-		return isOccupied;
-	}
 
-	public boolean isDoorway() {
-		return isDoorway;
-	}
-
-	public Object getDoorDirection() {
-		return doorDirection;
-	}
-	public boolean isRoomCenter() {
-		return isCenter;
-	}
-	public boolean isLabel() {
-		return roomLabel;
-	}
-	public char getSecretPassage() {
-		return secretPassage;
-	}
 	public void setSecretPassage(char sk) {
 		this.secretPassage = sk;
+	}
+	
+	// All other functions
+	public void addAdjacency(BoardCell cell) {
+		adjList.add(cell);
 	}
 	
 }
