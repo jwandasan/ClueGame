@@ -256,121 +256,130 @@ public class Board {
 	}
 	
 	public void calcAdjacency(BoardCell cell) {
-		if(cell.getInitial() == 'W' && !cell.isDoorway()){	// Conditional to populate walkway adjacency with cells that are also walkways
-			if(cell.getRow() >= 1 && grid[cell.getRow() - 1][cell.getCol()].getInitial() == 'W') {
-				cell.addAdjacency(grid[cell.getRow() - 1][cell.getCol()]);
-			} if(cell.getRow() < numRows - 1 && grid[cell.getRow() + 1][cell.getCol()].getInitial() == 'W') {
-				cell.addAdjacency(grid[cell.getRow() + 1][cell.getCol()]);
-			} if(cell.getCol() >= 1 && grid[cell.getRow()][cell.getCol() - 1].getInitial() == 'W') {
-				cell.addAdjacency(grid[cell.getRow()][cell.getCol() - 1]);
-			} if(cell.getCol() < numColumns - 1 && grid[cell.getRow()][cell.getCol() + 1].getInitial() == 'W') {
-				cell.addAdjacency(grid[cell.getRow()][cell.getCol() + 1]);
-			}
+		int cellRow = cell.getRow();
+		int cellCol = cell.getCol();
+		char cellInitial = cell.getInitial();
+		if(cellInitial == 'W' && !cell.isDoorway()){	// Conditional to populate walkway adjacency with cells that are also walkways
+			walkwayAdjacency(cell, cellRow, cellCol);
 		} else if(cell.isDoorway()) {	// Conditional to populate walkways with doors adjacency with room center cell
-			BoardCell compCell = null;
-			if(cell.getDoorDirection() == DoorDirection.UP) {
-				compCell = grid[cell.getRow() - 1][cell.getCol()];
-			} else if(cell.getDoorDirection() == DoorDirection.DOWN) {
-				compCell = grid[cell.getRow() + 1][cell.getCol()];
-			} else if(cell.getDoorDirection() == DoorDirection.RIGHT) {
-				compCell = grid[cell.getRow()][cell.getCol() + 1];
-			} else if(cell.getDoorDirection() == DoorDirection.LEFT) {
-				compCell = grid[cell.getRow()][cell.getCol() - 1];
-			} 	
-			
-			for(int i = 0; i < numRows; i++) {
-				for(int j = 0; j < numColumns; j++) {
-					if((compCell.getInitial() == grid[i][j].getInitial()) && grid[i][j].isRoomCenter()) {
-						cell.addAdjacency(grid[i][j]);
-					}
-				}
-			}
+			doorwayAdjacency(cell, cellRow, cellCol);
 			// Taken from the regular walkway test because if a cell is a doorway, it is also a walkway
-			if(cell.getRow() >= 0 && grid[cell.getRow() - 1][cell.getCol()].getInitial() == 'W') {
-				cell.addAdjacency(grid[cell.getRow() - 1][cell.getCol()]);
-			} if(cell.getRow() < numRows - 1 && grid[cell.getRow() + 1][cell.getCol()].getInitial() == 'W') {
-				cell.addAdjacency(grid[cell.getRow() + 1][cell.getCol()]);
-			} if(cell.getCol() >= 0 && grid[cell.getRow()][cell.getCol() - 1].getInitial() == 'W') {
-				cell.addAdjacency(grid[cell.getRow()][cell.getCol() - 1]);
-			} if(cell.getCol() < numColumns - 1 && grid[cell.getRow()][cell.getCol() + 1].getInitial() == 'W') {
-				cell.addAdjacency(grid[cell.getRow()][cell.getCol() + 1]);
-			}
+			walkwayAdjacency(cell, cellRow, cellCol);
 		} else if(cell.isRoomCenter()) {	// Conditional to populate adjacency for a center to a room and it's doorways
-			BoardCell compCell = null;
-			
-			// Has conditionals to check door directions, and grabs the "entrance" cell to stay in the right room when iterating through the board.
-			for(int i = 1; i < numRows - 1; i++) {
-				for(int j = 1; j < numColumns - 1; j++) {
-					if(grid[i][j].getInitial() == cell.getInitial() && grid[i + 1][j].isDoorway()) {
-						if(grid[i + 1][j].getDoorDirection() == DoorDirection.UP) {
-							compCell = grid[i][j];
-						} else if (grid[i + 1][j].getDoorDirection() == DoorDirection.DOWN) {
-							compCell = grid[i + 2][j];
-						} else if (grid[i + 1][j].getDoorDirection() == DoorDirection.LEFT) {
-							compCell = grid[i + 1][j - 1];
-						} else if (grid[i + 1][j].getDoorDirection() == DoorDirection.RIGHT) {
-							compCell = grid[i + 1][j + 1];
-						}
-						if(compCell.getInitial() == cell.getInitial()) {
-							cell.addAdjacency(grid[i + 1][j]);
-						}
-					} else if(grid[i][j].getInitial() == cell.getInitial() && grid[i - 1][j].isDoorway()) {
-						if(grid[i - 1][j].getDoorDirection() == DoorDirection.UP) {
-							compCell = grid[i - 2][j];
-						} else if (grid[i - 1][j].getDoorDirection() == DoorDirection.DOWN) {
-							compCell = grid[i][j];
-						} else if (grid[i - 1][j].getDoorDirection() == DoorDirection.LEFT) {
-							compCell = grid[i - 1][j - 1];
-						} else if (grid[i - 1][j].getDoorDirection() == DoorDirection.RIGHT) {
-							compCell = grid[i - 1][j + 1];
-						}
-						if(compCell.getInitial() == cell.getInitial()) {
-							cell.addAdjacency(grid[i - 1][j]);
-						}
-					} else if(grid[i][j].getInitial() == cell.getInitial() && grid[i][j + 1].isDoorway()) {
-						if(grid[i][j + 1].getDoorDirection() == DoorDirection.UP) {
-							compCell = grid[i - 1][j + 1];
-						} else if (grid[i][j + 1].getDoorDirection() == DoorDirection.DOWN) {
-							compCell = grid[i + 1][j + 1];
-						} else if (grid[i][j + 1].getDoorDirection() == DoorDirection.LEFT) {
-							compCell = grid[i][j];
-						} else if (grid[i][j + 1].getDoorDirection() == DoorDirection.RIGHT) {
-							compCell = grid[i][j + 2];
-						}
-						if(compCell.getInitial() == cell.getInitial()) {
-							cell.addAdjacency(grid[i][j + 1]);
-						}
-					} else if(grid[i][j].getInitial() == cell.getInitial() && grid[i][j - 1].isDoorway()) {
-						if(grid[i][j - 1].getDoorDirection() == DoorDirection.UP) {
-							compCell = grid[i - 1][j - 1];
-						} else if (grid[i][j - 1].getDoorDirection() == DoorDirection.DOWN) {
-							compCell = grid[i + 1][j - 1];
-						} else if (grid[i][j - 1].getDoorDirection() == DoorDirection.LEFT) {
-							compCell = grid[i][j - 2];
-						} else if (grid[i][j - 1].getDoorDirection() == DoorDirection.RIGHT) {
-							compCell = grid[i][j];
-						}
-						if(compCell.getInitial() == cell.getInitial()) {
-							cell.addAdjacency(grid[i][j - 1]);
-						}
-					}
-				}
-			}
+			roomAdjacency(cell, cellInitial);
 			// Allows for secret passage cells to be populated.
-			for(int i = 0; i < numRows; i++) {
+			for(int i = 0; i < numRows; i++) {	// Iterates through the grid to find a cell that has a secret passage
 				for(int j = 0; j < numColumns; j++) {
-					if(grid[i][j].getInitial() == cell.getInitial() && grid[i][j].isSecret()) {
-						for(int k = 0; k < numRows; k++) {
+					char gridInitial = grid[i][j].getInitial();
+					if(gridInitial == cellInitial && grid[i][j].isSecret()) {		
+						for(int k = 0; k < numRows; k++) {	// Iterates through the grid again to find a room with the appropriate secret passage
 							for (int l = 0; l < numColumns; l++) {
-								if(grid[k][l].getInitial() == grid[i][j].getSecretPassage() && grid[k][l].isRoomCenter()) {
-									cell.addAdjacency(grid[k][l]);
-									break;
+								if(grid[k][l].getInitial() == grid[i][j].getSecretPassage() && grid[k][l].isRoomCenter()) {	// Grabs the center cell of the connecting secret passage
+									cell.addAdjacency(grid[k][l]);															// and adds it to the adjacency list
+									break;	
 								}
 							}
 						}
 					}
 				}
 			}
+		}
+	}
+
+	private void roomAdjacency(BoardCell cell, char cellInitial) {
+		BoardCell compCell = null;
+		
+		// Has conditionals to check door directions, and grabs the "entrance" cell to stay in the right room when iterating through the board.
+		for(int i = 1; i < numRows - 1; i++) {// iterates through grid 2d array
+			for(int j = 1; j < numColumns - 1; j++) {
+				char gridInitial = grid[i][j].getInitial();
+				if(gridInitial == cellInitial && grid[i + 1][j].isDoorway()) { //Checks if the cell above the current room board piece is a doorway
+					if(grid[i + 1][j].getDoorDirection() == DoorDirection.UP) {// Checks up doorway and grabs cell to get the room we are in
+						compCell = grid[i][j];
+					} else if (grid[i + 1][j].getDoorDirection() == DoorDirection.DOWN) {//Checks Down door way
+						compCell = grid[i + 2][j];
+					} else if (grid[i + 1][j].getDoorDirection() == DoorDirection.LEFT) {//Checks left doorway
+						compCell = grid[i + 1][j - 1];
+					} else if (grid[i + 1][j].getDoorDirection() == DoorDirection.RIGHT) {//Checks right doorway
+						compCell = grid[i + 1][j + 1];
+					}
+					if(compCell.getInitial() == cellInitial) {// adds cell to adjacency list if cell initial and compare cell initial is the same
+						cell.addAdjacency(grid[i + 1][j]);
+					}
+				} else if(gridInitial == cellInitial && grid[i - 1][j].isDoorway()) {	// Checks if the cell below the current room board piece is a doorway
+					if(grid[i - 1][j].getDoorDirection() == DoorDirection.UP) {	// Checks up doorway and grabs cell to get the room we are in
+						compCell = grid[i - 2][j];
+					} else if (grid[i - 1][j].getDoorDirection() == DoorDirection.DOWN) {//Checks Down door way
+						compCell = grid[i][j];
+					} else if (grid[i - 1][j].getDoorDirection() == DoorDirection.LEFT) {//Checks left doorway
+						compCell = grid[i - 1][j - 1];
+					} else if (grid[i - 1][j].getDoorDirection() == DoorDirection.RIGHT) {//Checks right doorway
+						compCell = grid[i - 1][j + 1];
+					}
+					if(compCell.getInitial() == cellInitial) {// adds cell to adjacency list if cell initial and compare cell initial is the same
+						cell.addAdjacency(grid[i - 1][j]);
+					}
+				} else if(gridInitial == cellInitial && grid[i][j + 1].isDoorway()) {	// Checks if the cell to the right of the current room board piece is a doorway
+					if(grid[i][j + 1].getDoorDirection() == DoorDirection.UP) {							// Checks up doorway and grabs cell to get the room we are in	
+						compCell = grid[i - 1][j + 1];
+					} else if (grid[i][j + 1].getDoorDirection() == DoorDirection.DOWN) {				//Checks Down door way
+						compCell = grid[i + 1][j + 1];		
+					} else if (grid[i][j + 1].getDoorDirection() == DoorDirection.LEFT) {				//Checks left doorway
+						compCell = grid[i][j];
+					} else if (grid[i][j + 1].getDoorDirection() == DoorDirection.RIGHT) {				//Checks right doorway
+						compCell = grid[i][j + 2];
+					}
+					if(compCell.getInitial() == cellInitial) {
+						cell.addAdjacency(grid[i][j + 1]);
+					}
+				} else if(gridInitial == cellInitial && grid[i][j - 1].isDoorway()) {	// Checks if the cell to the left of the current room board piece is a doorway
+					if(grid[i][j - 1].getDoorDirection() == DoorDirection.UP) {							// Checks up doorway and grabs cell to get the room we are in
+						compCell = grid[i - 1][j - 1];
+					} else if (grid[i][j - 1].getDoorDirection() == DoorDirection.DOWN) {				//Checks Down door way	
+						compCell = grid[i + 1][j - 1];
+					} else if (grid[i][j - 1].getDoorDirection() == DoorDirection.LEFT) {				//Checks left doorway	
+						compCell = grid[i][j - 2];	
+					} else if (grid[i][j - 1].getDoorDirection() == DoorDirection.RIGHT) {				//Checks right doorway
+						compCell = grid[i][j];	
+					}
+					if(compCell.getInitial() == cellInitial) {// adds cell to adjacency list if cell initial and compare cell initial is the same
+						cell.addAdjacency(grid[i][j - 1]);
+					}
+				}
+			}
+		}
+	}
+
+	private void doorwayAdjacency(BoardCell cell, int cellRow, int cellCol) {
+		BoardCell compCell = null;
+		if(cell.getDoorDirection() == DoorDirection.UP) {	// Checks up doorway and makes compCell the cell right after "entering" doorway
+			compCell = grid[cellRow - 1][cellCol];
+		} else if(cell.getDoorDirection() == DoorDirection.DOWN) {	// Checks down doorway and makes compCell the cell right after "entering" doorway
+			compCell = grid[cellRow + 1][cellCol];
+		} else if(cell.getDoorDirection() == DoorDirection.RIGHT) {	// Checks right doorway and makes compCell the cell right after "entering" doorway
+			compCell = grid[cellRow][cellCol + 1];
+		} else if(cell.getDoorDirection() == DoorDirection.LEFT) {	// Checks left doorway and makes compCell the cell right after "entering" doorway
+			compCell = grid[cellRow][cellCol - 1];
+		} 	
+		
+		for(int i = 0; i < numRows; i++) { //gets the proper room center and adds to adjacency list
+			for(int j = 0; j < numColumns; j++) {
+				if((compCell.getInitial() == grid[i][j].getInitial()) && grid[i][j].isRoomCenter()) {
+					cell.addAdjacency(grid[i][j]);
+				}
+			}
+		}
+	}
+
+	private void walkwayAdjacency(BoardCell cell, int cellRow, int cellCol) {
+		if(cellRow >= 1 && grid[cellRow - 1][cellCol].getInitial() == 'W') {	// Adds cell above the current walkway to adjacency list
+			cell.addAdjacency(grid[cellRow - 1][cellCol]);
+		} if(cellRow < numRows - 1 && grid[cellRow + 1][cellCol].getInitial() == 'W') {	// Adds cell above the current walkway to adjacency list
+			cell.addAdjacency(grid[cellRow + 1][cellCol]);
+		} if(cellCol >= 1 && grid[cellRow][cellCol - 1].getInitial() == 'W') {	// Adds cell above the current walkway to adjacency list
+			cell.addAdjacency(grid[cellRow][cellCol - 1]);
+		} if(cellCol < numColumns - 1 && grid[cellRow][cellCol + 1].getInitial() == 'W') {	// Adds cell above the current walkway to adjacency list
+			cell.addAdjacency(grid[cellRow][cellCol + 1]);
 		}
 	}
 }
