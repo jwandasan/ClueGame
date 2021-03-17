@@ -267,22 +267,6 @@ public class Board {
 			walkwayAdjacency(cell, cellRow, cellCol);
 		} else if(cell.isRoomCenter()) {	// Conditional to populate adjacency for a center to a room and it's doorways
 			roomAdjacency(cell, cellInitial);
-			// Allows for secret passage cells to be populated.
-			for(int i = 0; i < numRows; i++) {	// Iterates through the grid to find a cell that has a secret passage
-				for(int j = 0; j < numColumns; j++) {
-					char gridInitial = grid[i][j].getInitial();
-					if(gridInitial == cellInitial && grid[i][j].isSecret()) {		
-						for(int k = 0; k < numRows; k++) {	// Iterates through the grid again to find a room with the appropriate secret passage
-							for (int l = 0; l < numColumns; l++) {
-								if(grid[k][l].getInitial() == grid[i][j].getSecretPassage() && grid[k][l].isRoomCenter()) {	// Grabs the center cell of the connecting secret passage
-									cell.addAdjacency(grid[k][l]);															// and adds it to the adjacency list
-									break;	
-								}
-							}
-						}
-					}
-				}
-			}
 		}
 	}
 
@@ -348,6 +332,23 @@ public class Board {
 				}
 			}
 		}
+		// Allows for secret passage cells to be populated.
+		for(int i = 0; i < numRows; i++) {	// Iterates through the grid to find a cell that has a secret passage
+			for(int j = 0; j < numColumns; j++) {
+				char gridInitial = grid[i][j].getInitial();
+				if(gridInitial == cellInitial && grid[i][j].isSecret()) {		
+					for(int k = 0; k < numRows; k++) {	// Iterates through the grid again to find a room with the appropriate secret passage
+						for (int l = 0; l < numColumns; l++) {
+							if(grid[k][l].getInitial() == grid[i][j].getSecretPassage() && grid[k][l].isRoomCenter()) {	// Grabs the center cell of the connecting secret passage
+								cell.addAdjacency(grid[k][l]);															// and adds it to the adjacency list
+								break;	
+							}
+						}
+					}
+				}
+			}
+		}
+					
 	}
 
 	private void doorwayAdjacency(BoardCell cell, int cellRow, int cellCol) {
