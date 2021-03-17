@@ -56,7 +56,7 @@ public class BoardCell {
 		return label;
 	}
 	
-	public boolean getRoom() {
+	public boolean isRoom() { // changed getRoom to isRoom
 		return isRoom;
 	}
 	
@@ -64,7 +64,7 @@ public class BoardCell {
 		return initial;
 	}
 	
-	public boolean getOccupied() {
+	public boolean isOccupied() {
 		return isOccupied;
 	}
 

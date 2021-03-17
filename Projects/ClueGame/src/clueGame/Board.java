@@ -228,6 +228,14 @@ public class Board {
 		}
 	}
 	
+	/*
+	 * 
+	 * 
+	 * Section of code includes everything for calcTargets
+	 * 
+	 * 
+	 */
+	
 	public void getCalcTargets(BoardCell startCell, int pathlength) {
 		calcAdjacency(startCell);
 		visited.add(startCell);
@@ -235,7 +243,7 @@ public class Board {
 		for (BoardCell possMove: tempAdj) {
 			if (!(visited.contains(possMove))) {
 				visited.add(possMove);
-				 if(possMove.getOccupied() && !possMove.isRoomCenter()) {
+				 if(possMove.isOccupied() && !possMove.isRoomCenter()) {
 						continue;
 				} else if (pathlength == 1 || possMove.isRoomCenter()) {
 					targets.add(possMove);
@@ -254,7 +262,17 @@ public class Board {
 		targets = new HashSet<BoardCell>();
 		getCalcTargets(startCell, pathlength);
 	}
+	/*
+	 * 
+	 */
 	
+	/*
+	 * 
+	 * 
+	 * Section of Code includes everything associated with calcAdjacency
+	 * 
+	 * 
+	 */
 	public void calcAdjacency(BoardCell cell) {
 		int cellRow = cell.getRow();
 		int cellCol = cell.getCol();
@@ -384,3 +402,6 @@ public class Board {
 		}
 	}
 }
+	/*
+	 *
+	 */
