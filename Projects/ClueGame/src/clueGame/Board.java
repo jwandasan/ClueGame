@@ -39,7 +39,12 @@ public class Board {
 		super();
 	}
 	
-	// All getters
+	/*
+	 * 
+	 * All getters
+	 * 
+	 */
+	 
 	public static Board getInstance() {//returns the instance of a single board
 		return theInstance;
 	}
@@ -88,8 +93,15 @@ public class Board {
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
+	/*
+	 * Ends section for all getter methods
+	 */
 
-	// All setters
+	/*
+	 * 
+	 *  All setters
+	 *  
+	 */
 	public void setNumRows(int numRows) {
 		this.numRows = numRows;
 	}
@@ -104,7 +116,15 @@ public class Board {
 		this.numColumns = numColumns;
 	}
 	
-	// All other functions needed
+	/*
+	 * Ends Section for all setters
+	 */
+	
+	/*
+	 * 
+	 * All other functions needed
+	 * 
+	 */
 	
 	public void initialize() throws FileNotFoundException, BadConfigFormatException{//Loads file
 		loadConfigFiles();
@@ -230,9 +250,7 @@ public class Board {
 	
 	/*
 	 * 
-	 * 
-	 * Section of code includes everything for calcTargets
-	 * 
+	 * Beginning of section of code includes everything for calcTargets
 	 * 
 	 */
 	
@@ -263,14 +281,15 @@ public class Board {
 		getCalcTargets(startCell, pathlength);
 	}
 	/*
-	 * 
+	 * Ends section for calcTargets methods
 	 */
+	
+	
+	
 	
 	/*
 	 * 
-	 * 
-	 * Section of Code includes everything associated with calcAdjacency
-	 * 
+	 * Beginning of section of Code includes everything associated with calcAdjacency
 	 * 
 	 */
 	public void calcAdjacency(BoardCell cell) {
@@ -403,5 +422,5 @@ public class Board {
 	}
 }
 	/*
-	 *
+	 * Ends section for calcAdjacency methods
 	 */

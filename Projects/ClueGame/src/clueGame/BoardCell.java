@@ -31,6 +31,10 @@ public class BoardCell {
 	private Object roomDirection;
 	Set<BoardCell> adjList;
 	
+	
+	/*
+	 * Constructor
+	 */
 	public BoardCell(int row, int col) {
 		super();
 		this.row = row;
@@ -39,7 +43,11 @@ public class BoardCell {
 	}
 	
 	
-	// All getters
+	/*
+	 * 
+	 *  All getter methods
+	 *  
+	 */
 	public int getCol() {
 		return col;
 	}
@@ -64,7 +72,7 @@ public class BoardCell {
 		return initial;
 	}
 	
-	public boolean isOccupied() {
+	public boolean isOccupied() {	// changed getOccupied to isOccupied for clarification
 		return isOccupied;
 	}
 
@@ -87,8 +95,18 @@ public class BoardCell {
 	public boolean isSecret() {
 		return isSecret;
 	}
+	/*
+	 * Ends section for all getter methods
+	 */
 	
-	// All setters
+	
+	
+	
+	/*
+	 * 
+	 *  All setter methods
+	 *  
+	 */
 	public Set<BoardCell> getAdjList() {
 		return adjList;
 	}
@@ -143,9 +161,20 @@ public class BoardCell {
 		this.secretPassage = sk;
 	}
 	
-	// All other functions
+	/*
+	 * Ends section for all setter methods
+	 */
+	
+	/*
+	 *  
+	 *  All other functions
+	 *  
+	 */
 	public void addAdjacency(BoardCell cell) {
 		adjList.add(cell);
 	}
+	/*
+	 * Ends section for all other functions
+	 */
 	
 }
