@@ -209,6 +209,9 @@ public class Board {
 					
 					// If there is a special identifying character, it applies the right assignment depending on the character
 					// Including doorways, walkways, and center/labels
+					if(labels[j].charAt(0) == 'W') {
+						cell.setIsWalkway(true);
+					}
 					if(labels[j].length() > 1) {
 						if(labels[j].charAt(1) == '<') {
 							cell.setLabel(labels[j]);
@@ -239,7 +242,7 @@ public class Board {
 						}
 					} else if(labels[j].length() == 1) {
 						cell.setLabel(roomName);
-					}
+					} 
 				}
 			}
 			inTwo.close();
@@ -410,13 +413,13 @@ public class Board {
 	}
 
 	private void walkwayAdjacency(BoardCell cell, int cellRow, int cellCol) {
-		if(cellRow >= 1 && grid[cellRow - 1][cellCol].getInitial() == 'W') {	// Adds cell above the current walkway to adjacency list
+		if(cellRow >= 1 && grid[cellRow - 1][cellCol].isWalkway()) {	// Adds cell above the current walkway to adjacency list
 			cell.addAdjacency(grid[cellRow - 1][cellCol]);
-		} if(cellRow < numRows - 1 && grid[cellRow + 1][cellCol].getInitial() == 'W') {	// Adds cell above the current walkway to adjacency list
+		} if(cellRow < numRows - 1 && grid[cellRow + 1][cellCol].isWalkway()) {	// Adds cell above the current walkway to adjacency list
 			cell.addAdjacency(grid[cellRow + 1][cellCol]);
-		} if(cellCol >= 1 && grid[cellRow][cellCol - 1].getInitial() == 'W') {	// Adds cell above the current walkway to adjacency list
+		} if(cellCol >= 1 && grid[cellRow][cellCol - 1].isWalkway()) {	// Adds cell above the current walkway to adjacency list
 			cell.addAdjacency(grid[cellRow][cellCol - 1]);
-		} if(cellCol < numColumns - 1 && grid[cellRow][cellCol + 1].getInitial() == 'W') {	// Adds cell above the current walkway to adjacency list
+		} if(cellCol < numColumns - 1 && grid[cellRow][cellCol + 1].isWalkway()) {	// Adds cell above the current walkway to adjacency list
 			cell.addAdjacency(grid[cellRow][cellCol + 1]);
 		}
 	}
@@ -424,3 +427,4 @@ public class Board {
 	/*
 	 * Ends section for calcAdjacency methods
 	 */
+

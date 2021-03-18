@@ -28,6 +28,7 @@ public class BoardCell {
 	private boolean isDoorway;
 	private boolean isCenter;
 	private boolean isSecret;
+	private boolean isWalkway;
 	private Object roomDirection;
 	Set<BoardCell> adjList;
 	
@@ -95,6 +96,10 @@ public class BoardCell {
 	public boolean isSecret() {
 		return isSecret;
 	}
+	
+	public boolean isWalkway() {
+		return isWalkway;
+	}
 	/*
 	 * Ends section for all getter methods
 	 */
@@ -106,7 +111,11 @@ public class BoardCell {
 	 * 
 	 *  All setter methods
 	 *  
+	 *  
 	 */
+	public void setIsWalkway(boolean isWalkway) {
+		this.isWalkway = isWalkway;
+	}
 	public Set<BoardCell> getAdjList() {
 		return adjList;
 	}
