@@ -213,30 +213,39 @@ public class Board {
 						cell.setIsWalkway(true);
 					}
 					if(labels[j].length() > 1) {
-						if(labels[j].charAt(1) == '<') {
+						switch(labels[j].charAt(1)) {
+						case '<':
 							cell.setLabel(labels[j]);
 							cell.setDoorDirection(DoorDirection.LEFT);
 							cell.setIsDoorway(true);
-						} else if(labels[j].charAt(1) == '>') {
+							break;
+						case '>':
 							cell.setLabel(labels[j]);
 							cell.setDoorDirection(DoorDirection.RIGHT);
 							cell.setIsDoorway(true);
-						} else if(labels[j].charAt(1) == '^') {
+							break;
+						case '^':
 							cell.setLabel(labels[j]);
 							cell.setDoorDirection(DoorDirection.UP);
 							cell.setIsDoorway(true);
-						} else if(labels[j].charAt(1) == 'v') {
+							break;
+						case 'v':
 							cell.setLabel(labels[j]);
 							cell.setDoorDirection(DoorDirection.DOWN);
 							cell.setIsDoorway(true);
-						} else if(labels[j].charAt(1) == '#') {
+							break;
+						case '#':
 							cell.setLabel(labels[j]);
 							cell.setIsLabel(true);
-						} else if(labels[j].charAt(1) == '*') {
+							break;
+						case '*':
 							cell.setLabel(labels[j]);
 							cell.setIsCenter(true);
 							room.setCenterCell(cell);
-						} else if(Character.isLetter(labels[j].charAt(1))) {
+							break;
+						}
+						
+						if(Character.isLetter(labels[j].charAt(1))) {
 							cell.setSecretPassage(labels[j].charAt(1));
 							cell.setIsSecret(true);
 						}
