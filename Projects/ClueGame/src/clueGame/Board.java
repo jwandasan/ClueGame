@@ -126,7 +126,7 @@ public class Board {
 	 * 
 	 */
 	
-	public void initialize() throws FileNotFoundException, BadConfigFormatException{//Loads file
+	public void initialize() throws FileNotFoundException, BadConfigFormatException{ //Loads files properly
 		loadConfigFiles();
 	}
 	
