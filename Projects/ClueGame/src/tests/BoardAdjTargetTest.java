@@ -143,7 +143,7 @@ class BoardAdjTargetTest {
 	// Tests targets along walkways, at various distances
 	@Test
 	public void testTargetsWalkways() {
-		board.calcTargets(board.getCell(25, 5), 1);
+		board.calcTargetExecute(board.getCell(25, 5), 1);
 		Set<BoardCell> targets= board.getTargets();
 		assertEquals(4, targets.size());
 		assertTrue(targets.contains(board.getCell(25, 6)));
@@ -154,19 +154,19 @@ class BoardAdjTargetTest {
 	@Test
 	public void testTargetsEnterRoom() {
 		//Test one entrance
-		board.calcTargets(board.getCell(25, 7), 1);
+		board.calcTargetExecute(board.getCell(25, 7), 1);
 		Set<BoardCell> targets = board.getTargets();
 		//assertTrue(targets.contains(board.getCell(24, 7)));  We asserted - for the commented out tests in this package - that they were not possible because we did not set them up right
 		assertTrue(targets.contains(board.getCell(21, 7)));
 		
 		//Test two entrances
-		board.calcTargets(board.getCell(21,3), 1);
+		board.calcTargetExecute(board.getCell(21,3), 1);
 		targets = board.getTargets();
 		//assertTrue(targets.contains(board.getCell(21,2)));
 		assertTrue(targets.contains(board.getCell(21, 1)));
 		
 		
-		board.calcTargets(board.getCell(22,3), 1);
+		board.calcTargetExecute(board.getCell(22,3), 1);
 		targets = board.getTargets();
 		//assertTrue(targets.contains(board.getCell(22,2)));
 		assertTrue(targets.contains(board.getCell(21, 1)));
@@ -176,11 +176,11 @@ class BoardAdjTargetTest {
 	@Test
 	public void testTargetsWithoutSecret() {
 		//tests no target
-		board.calcTargets(board.getCell(21, 7), 1);
+		board.calcTargetExecute(board.getCell(21, 7), 1);
 		Set<BoardCell> targets = board.getTargets();
 		assertEquals(4,targets.size());
 		//tests next room without a target
-		board.calcTargets(board.getCell(21, 15), 1);
+		board.calcTargetExecute(board.getCell(21, 15), 1);
 		targets = board.getTargets();
 		assertEquals(2,targets.size());
 	}
@@ -189,11 +189,11 @@ class BoardAdjTargetTest {
 	@Test
 	public void testTargetsBlocking() {
 		//Tests two different blocks
-		board.calcTargets(board.getCell(7, 7), 1);
+		board.calcTargetExecute(board.getCell(7, 7), 1);
 		Set<BoardCell> targets = board.getTargets();
 		assertEquals(3,targets.size());
 		
-		board.calcTargets(board.getCell(1, 16), 1);
+		board.calcTargetExecute(board.getCell(1, 16), 1);
 		targets = board.getTargets();
 		assertEquals(2,targets.size());
 	}

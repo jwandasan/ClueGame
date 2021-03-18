@@ -254,7 +254,7 @@ public class Board {
 	 * 
 	 */
 	
-	public void getCalcTargets(BoardCell startCell, int pathlength) {
+	public void calculateTargets(BoardCell startCell, int pathlength) {
 		calcAdjacency(startCell);
 		visited.add(startCell);
 		Set<BoardCell> tempAdj = startCell.getAdjList();
@@ -266,7 +266,7 @@ public class Board {
 				} else if (pathlength == 1 || possMove.isRoomCenter()) {
 					targets.add(possMove);
 				} else if (pathlength != 1) {
-					getCalcTargets(possMove, pathlength - 1);
+					calculateTargets(possMove, pathlength - 1);
 				}
 				visited.remove(possMove);
 			} else if ((visited.contains(possMove))){
@@ -275,10 +275,10 @@ public class Board {
 		}
 	}
 	
-	public void calcTargets(BoardCell startCell, int pathlength) {	// Sets visited and targets to new to make sure we get a "fresh" list for every target calculation
+	public void calcTargetExecute(BoardCell startCell, int pathlength) {	// Sets visited and targets to new to make sure we get a "fresh" list for every target calculation
 		visited = new HashSet<BoardCell>();
 		targets = new HashSet<BoardCell>();
-		getCalcTargets(startCell, pathlength);
+		calculateTargets(startCell, pathlength);
 	}
 	/*
 	 * Ends section for calcTargets methods
