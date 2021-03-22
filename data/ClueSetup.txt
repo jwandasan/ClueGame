@@ -1,0 +1,27 @@
+//Rooms and room cards
+Room, Atrium, A
+Room, Reading_Area, R
+Room, Collectors_Room, C
+Room, Office, O
+Room, Closet, T
+Room, Studio, S
+Room, Bathroom, B
+Room, Music Room, M
+Room, Green House, G
+//other spaces on board
+Space, Unused, X
+Space, Walkway, W
+//Weapons
+Weapon, Bat
+Weapon, Knife
+Weapon, Handgun
+Weapon, Sword
+Weapon, Hammer
+Weapon, Pan
+//Players
+Player, Quinn XCII
+Player, Alexander 23
+Player, Jeremy Zucker
+Player, Chelsea Cutler
+Player, Ayokay
+Player, Jon Bellion
