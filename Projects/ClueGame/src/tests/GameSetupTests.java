@@ -95,8 +95,21 @@ class GameSetupTests {
 		assertEquals(Color.yellow,comp3.getPlayerColor());
 		assertEquals(23, comp3.getPlayerColumn());
 		assertEquals(17, comp3.getPlayerRow());
+	}
+	
+	@Test
+	void TestDeckCreated() {
+		//Tests weapons
+		assertTrue(deck.containsKey("Bat"));
+		assertTrue(deck.containsKey("Sword"));
 		
+		//Tests People
+		assertTrue(deck.containsKey("Quinn XCII"));
+		assertTrue(deck.containsKey("Chelsea Cutler"));
 		
+		//Tests Rooms
+		assertTrue(deck.containsKey("Atrium"));
+		assertTrue(deck.containsKey("Green House"));
 	}
 
 }
