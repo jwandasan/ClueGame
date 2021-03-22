@@ -164,27 +164,29 @@ public class Board {
 				if(split[0].charAt(0) != '/') {
 					if (split[0].contentEquals("Room") || split[0].contentEquals("Space")) {	// Loads information for rooms and spaces
 						charToName.put(split[2].charAt(0), split[1]);
-						if(split[0] == "Room") {
+						if(split[0].contentEquals("Room")) {
+							
 							rooms.add(split[1]);
 						}
 					} else if(split[0].contentEquals("Human") || split[0].contentEquals("Weapon") || split[0].contentEquals("Computer")) {	// Loads information for players and weapons
-						if(split[0] == "Human") {
+						if(split[0].contentEquals("Human")) {
+							System.out.println("Working");
 							characters.add(split[1]);
-							human = new HumanPlayer(split[1], Color.red, Integer.valueOf((split[4])), Integer.valueOf(split[5]));
-						} else if(split[0] == ("Weapon")) {
+							human = new HumanPlayer(split[1], Color.red, Integer.valueOf((split[3])), Integer.valueOf(split[4]));
+						} else if(split[0].contentEquals("Weapon")) {
 							weapons.add(split[1]);
 						} else if (split[0].contentEquals("Computer")) {
 							characters.add(split[1]);
 							if (split[3] == "black") {
-								computer = new ComputerPlayer(split[1], Color.black, Integer.valueOf(split[4]), Integer.valueOf(split[5]));
+								computer = new ComputerPlayer(split[1], Color.black, Integer.valueOf(split[3]), Integer.valueOf(split[4]));
 							} else if (split[3] == "blue") {
-								computer = new ComputerPlayer(split[1], Color.blue, Integer.valueOf(split[4]), Integer.valueOf(split[5]));
+								computer = new ComputerPlayer(split[1], Color.blue, Integer.valueOf(split[3]), Integer.valueOf(split[4]));
 							} else if (split[3] == "green") {
-								computer = new ComputerPlayer(split[1], Color.green, Integer.valueOf(split[4]), Integer.valueOf(split[5]));
+								computer = new ComputerPlayer(split[1], Color.green, Integer.valueOf(split[3]), Integer.valueOf(split[4]));
 							} else if (split[3] == "cyan") {
-								computer = new ComputerPlayer(split[1], Color.cyan, Integer.valueOf(split[4]), Integer.valueOf(split[5]));
+								computer = new ComputerPlayer(split[1], Color.cyan, Integer.valueOf(split[3]), Integer.valueOf(split[4]));
 							} else if (split[3] == "yellow") {
-								computer = new ComputerPlayer(split[1], Color.yellow, Integer.valueOf(split[4]), Integer.valueOf(split[5]));
+								computer = new ComputerPlayer(split[1], Color.yellow, Integer.valueOf(split[3]), Integer.valueOf(split[4]));
 							}
 							
 							computers.put(split[0], computer);
@@ -483,6 +485,7 @@ public class Board {
 	 */
 	
 	public void loadCards() {
+		
 		for(String weapon: weapons) {
 			Card aWeapon = new Card(weapon);
 			deckOfCards.put(weapon, aWeapon);

@@ -33,8 +33,8 @@ class GameSetupTests {
 	
 	@Test
 	void TestLoadedPeople() {
-		HumanPlayer human = board.getHuman();
-		assertEquals("Quinn XCII", human.getPlayerName());
+		HumanPlayer testHuman = board.getHuman();
+		assertEquals("Quinn XCII", testHuman.getPlayerName());
 		
 	}
 
