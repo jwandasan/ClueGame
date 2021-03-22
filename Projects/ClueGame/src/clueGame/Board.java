@@ -64,6 +64,11 @@ public class Board {
 		return human;
 	}
 	
+	public Map<String, ComputerPlayer> getComputerList() {
+		return computers;
+	}
+	
+
 	public int getNumColumns() {
 		return numColumns;
 	}
@@ -177,19 +182,19 @@ public class Board {
 							weapons.add(split[1]);
 						} else if (split[0].contentEquals("Computer")) {
 							characters.add(split[1]);
-							if (split[3] == "black") {
+							if (split[2].contentEquals("black")) {
 								computer = new ComputerPlayer(split[1], Color.black, Integer.valueOf(split[3]), Integer.valueOf(split[4]));
-							} else if (split[3] == "blue") {
+							} else if (split[2].contentEquals("blue")) {
 								computer = new ComputerPlayer(split[1], Color.blue, Integer.valueOf(split[3]), Integer.valueOf(split[4]));
-							} else if (split[3] == "green") {
+							} else if (split[2].contentEquals("green") ) {
 								computer = new ComputerPlayer(split[1], Color.green, Integer.valueOf(split[3]), Integer.valueOf(split[4]));
-							} else if (split[3] == "cyan") {
+							} else if (split[2].contentEquals("cyan")) {
 								computer = new ComputerPlayer(split[1], Color.cyan, Integer.valueOf(split[3]), Integer.valueOf(split[4]));
-							} else if (split[3] == "yellow") {
+							} else if (split[2].contentEquals("yellow")) {
 								computer = new ComputerPlayer(split[1], Color.yellow, Integer.valueOf(split[3]), Integer.valueOf(split[4]));
 							}
 							
-							computers.put(split[0], computer);
+							computers.put(split[1], computer);
 						}
 					} else {	// If there is any errors in the file, there will be a BadConfigFormatException
 						throw new BadConfigFormatException();
