@@ -38,7 +38,7 @@ public class Board {
 	private Set<String> rooms = new HashSet<String>();
 	private Set<String> characters = new HashSet<String>();
 	private Set<String> weapons = new HashSet<String>();
-	private Map<String, Card> deckOfCards = new HashMap<String,Card>();
+	private static Map<String, Card> deckOfCards = new HashMap<String,Card>();
 	private HumanPlayer human;
 	private ComputerPlayer computer;
 	private Map<String, ComputerPlayer> computers = new HashMap<String, ComputerPlayer>();
@@ -56,6 +56,12 @@ public class Board {
 	 
 	public static Board getInstance() {//returns the instance of a single board
 		return theInstance;
+	}
+	public static Map<String,Card> getDeck(){
+		return deckOfCards;
+	}
+	public HumanPlayer getHuman() {
+		return human;
 	}
 	
 	public int getNumColumns() {
@@ -162,9 +168,9 @@ public class Board {
 							rooms.add(split[1]);
 						}
 					} else if(split[0].contentEquals("Human") || split[0].contentEquals("Weapon") || split[0].contentEquals("Computer")) {	// Loads information for players and weapons
-						if(split[0] == ("Human")) {
+						if(split[0] == "Human") {
 							characters.add(split[1]);
-							human = new HumanPlayer(split[1], Color.red, Integer.valueOf((split[2])), Integer.valueOf(split[3]));
+							human = new HumanPlayer(split[1], Color.red, Integer.valueOf((split[4])), Integer.valueOf(split[5]));
 						} else if(split[0] == ("Weapon")) {
 							weapons.add(split[1]);
 						} else if (split[0].contentEquals("Computer")) {

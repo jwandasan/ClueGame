@@ -18,4 +18,16 @@ public abstract class Player {
 	public void updateHand(Card card) {
 		this.card = card;
 	}
+	public String getPlayerName() {
+		return name;
+	}
+	public Color getPlayerColor() {
+		return color;
+	}
+	public Integer getPlayerRow() {
+		return row;
+	}
+	public Integer getPlayerColumn() {
+		return column;
+	}
 }

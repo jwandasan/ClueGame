@@ -3,16 +3,21 @@ package tests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
+import clueGame.Card;
+import clueGame.HumanPlayer;
 
 class GameSetupTests {
 	
 	private static Board board;
+	private static Map<String,Card> deck;
+	
 
 	@BeforeAll
 	public static void setUp() throws FileNotFoundException, BadConfigFormatException {
@@ -22,11 +27,15 @@ class GameSetupTests {
 		board.setConfigFiles("ClueLayoutEJ.csv", "ClueSetup.txt");
 		// Initialize will load config files 
 		board.initialize();
+		
+		deck = Board.getDeck();
 	}
 	
 	@Test
-	void test() {
-		fail("Not yet implemented");
+	void TestLoadedPeople() {
+		HumanPlayer human = board.getHuman();
+		assertEquals("Quinn XCII", human.getPlayerName());
+		
 	}
 
 }
