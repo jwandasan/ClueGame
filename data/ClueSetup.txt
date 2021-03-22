@@ -1,7 +1,7 @@
 //Rooms and room cards
 Room, Atrium, A
-Room, Reading_Area, R
-Room, Collectors_Room, C
+Room, Reading Area, R
+Room, Collectors Room, C
 Room, Office, O
 Room, Closet, T
 Room, Studio, S
@@ -19,9 +19,9 @@ Weapon, Sword
 Weapon, Hammer
 Weapon, Pan
 //Players
-Player, Quinn XCII
-Player, Alexander 23
-Player, Jeremy Zucker
-Player, Chelsea Cutler
-Player, Ayokay
-Player, Jon Bellion
+Human, Quinn XCII, red, 0, 7
+Computer, Alexander 23, black, 18, 0
+Computer, Jeremy Zucker, blue, 24, 9
+Computer, Chelsea Cutler, green, 7, 23
+Computer, Ayokay, cyan, 24, 14
+Computer, Jon Bellion, yellow, 17, 23

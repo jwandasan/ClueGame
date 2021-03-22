@@ -54,8 +54,8 @@ class FileInitTest {
 	@Test
 	public void testRoomLabels() {
 		assertEquals("Atrium",board.getRoom('A').getName());
-		assertEquals("Reading_Area",board.getRoom('R').getName());
-		assertEquals("Collectors_Room",board.getRoom('C').getName());
+		assertEquals("Reading Area",board.getRoom('R').getName());
+		assertEquals("Collectors Room",board.getRoom('C').getName());
 		assertEquals("Office",board.getRoom('O').getName());
 		assertEquals("Closet",board.getRoom('T').getName());
 		assertEquals("Studio",board.getRoom('S').getName());

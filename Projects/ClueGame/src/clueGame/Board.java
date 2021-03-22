@@ -1,6 +1,9 @@
 package clueGame;
 
 import java.io.*;
+import java.util.*;
+import java.awt.Color;
+import java.io.*;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Scanner;
@@ -32,8 +35,14 @@ public class Board {
 	private Map<Character, String> charToName = new HashMap<Character, String>();
 	private Map<Character, Room> roomMap = new HashMap<Character,Room>();
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
+	private Set<String> rooms = new HashSet<String>();
 	private Set<String> characters = new HashSet<String>();
 	private Set<String> weapons = new HashSet<String>();
+	private Map<String, Card> deckOfCards = new HashMap<String,Card>();
+	private HumanPlayer human;
+	private ComputerPlayer computer;
+	private Map<String, ComputerPlayer> computers = new HashMap<String, ComputerPlayer>();
+	private static final int MAX_PLAYERS = 6;
 	
 	private Board() {
 		super();
@@ -128,6 +137,7 @@ public class Board {
 	
 	public void initialize() throws FileNotFoundException, BadConfigFormatException{ //Loads files properly
 		loadConfigFiles();
+		loadCards();
 	}
 	
 	public void loadConfigFiles() throws FileNotFoundException, BadConfigFormatException {//loads the setup and layout configurations
@@ -136,7 +146,6 @@ public class Board {
 	}
 	
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
-		Map<String,Character> setupMap = new HashMap<String,Character>();
 		charToName.clear();
 		// Load the initial and name for each room
 		try {
@@ -147,15 +156,34 @@ public class Board {
 				String[] split = line.split(", ");
 				// Splits the line based off of ", " in order to correctly populate our map of rooms and columns
 				if(split[0].charAt(0) != '/') {
-					if (split[0].contentEquals("Room") || split[0].contentEquals("Space")) {
+					if (split[0].contentEquals("Room") || split[0].contentEquals("Space")) {	// Loads information for rooms and spaces
 						charToName.put(split[2].charAt(0), split[1]);
-					} else if(split[0].contentEquals("Player") || split[0].contentEquals("Weapon")) {
-						if(split[0] == ("Player")) {
+						if(split[0] == "Room") {
+							rooms.add(split[1]);
+						}
+					} else if(split[0].contentEquals("Human") || split[0].contentEquals("Weapon") || split[0].contentEquals("Computer")) {	// Loads information for players and weapons
+						if(split[0] == ("Human")) {
 							characters.add(split[1]);
+							human = new HumanPlayer(split[1], Color.red, Integer.valueOf((split[2])), Integer.valueOf(split[3]));
 						} else if(split[0] == ("Weapon")) {
 							weapons.add(split[1]);
+						} else if (split[0].contentEquals("Computer")) {
+							characters.add(split[1]);
+							if (split[3] == "black") {
+								computer = new ComputerPlayer(split[1], Color.black, Integer.valueOf(split[4]), Integer.valueOf(split[5]));
+							} else if (split[3] == "blue") {
+								computer = new ComputerPlayer(split[1], Color.blue, Integer.valueOf(split[4]), Integer.valueOf(split[5]));
+							} else if (split[3] == "green") {
+								computer = new ComputerPlayer(split[1], Color.green, Integer.valueOf(split[4]), Integer.valueOf(split[5]));
+							} else if (split[3] == "cyan") {
+								computer = new ComputerPlayer(split[1], Color.cyan, Integer.valueOf(split[4]), Integer.valueOf(split[5]));
+							} else if (split[3] == "yellow") {
+								computer = new ComputerPlayer(split[1], Color.yellow, Integer.valueOf(split[4]), Integer.valueOf(split[5]));
+							}
+							
+							computers.put(split[0], computer);
 						}
-					} else {
+					} else {	// If there is any errors in the file, there will be a BadConfigFormatException
 						throw new BadConfigFormatException();
 					}
 				}
@@ -438,8 +466,35 @@ public class Board {
 			cell.addAdjacency(grid[cellRow][cellCol + 1]);
 		}
 	}
-}
 	/*
 	 * Ends section for calcAdjacency methods
 	 */
+	
+	/*
+	 * 
+	 * Card Setup
+	 * 
+	 */
+	
+	public void loadCards() {
+		for(String weapon: weapons) {
+			Card aWeapon = new Card(weapon);
+			deckOfCards.put(weapon, aWeapon);
+		}
+		for(String person: characters) {
+			Card aPerson = new Card(person);
+			deckOfCards.put(person, aPerson);
+		}
+		for(String room: rooms) {
+			Card aRoom = new Card(room);
+			deckOfCards.put(room, aRoom);
+		}
+	}
+	
+	/*
+	 * 
+	 */
+	
+}
+
 

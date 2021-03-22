@@ -22,14 +22,13 @@ public class BoardCell {
 	private String label;
 	private String roomName;
 	private DoorDirection doorDirection;
-	private boolean roomLabel, roomCenter;
+	private boolean roomLabel;
 	private char secretPassage;
 	private boolean isRoom, isOccupied;
 	private boolean isDoorway;
 	private boolean isCenter;
 	private boolean isSecret;
 	private boolean isWalkway;
-	private Object roomDirection;
 	Set<BoardCell> adjList;
 	
 	
