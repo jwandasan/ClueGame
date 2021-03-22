@@ -279,9 +279,6 @@ public class BoardAdjTargetTest306 {
 		board.getCell(12, 20).setOccupied(false);
 		board.getCell(8, 18).setOccupied(false);
 		targets= board.getTargets();
-		for(BoardCell x: targets) {
-			System.out.println(x.getRow() + " " +x.getCol());
-		}
 		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCell(7, 17)));	
 		assertTrue(targets.contains(board.getCell(8, 16)));	

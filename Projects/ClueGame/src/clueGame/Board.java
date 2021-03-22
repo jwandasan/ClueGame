@@ -29,11 +29,11 @@ public class Board {
 	private String name; 
 	private Room room = new Room(name);
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
-	private Set<String> layoutData;
-	private Set<String> setupData;
 	private Map<Character, String> charToName = new HashMap<Character, String>();
 	private Map<Character, Room> roomMap = new HashMap<Character,Room>();
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
+	private Set<String> characters = new HashSet<String>();
+	private Set<String> weapons = new HashSet<String>();
 	
 	private Board() {
 		super();
@@ -149,6 +149,12 @@ public class Board {
 				if(split[0].charAt(0) != '/') {
 					if (split[0].contentEquals("Room") || split[0].contentEquals("Space")) {
 						charToName.put(split[2].charAt(0), split[1]);
+					} else if(split[0].contentEquals("Player") || split[0].contentEquals("Weapon")) {
+						if(split[0] == ("Player")) {
+							characters.add(split[1]);
+						} else if(split[0] == ("Weapon")) {
+							weapons.add(split[1]);
+						}
 					} else {
 						throw new BadConfigFormatException();
 					}
