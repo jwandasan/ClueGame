@@ -7,8 +7,15 @@ public class Card {
 		this.cardName = cardName;
 	}
 	
+	public String getCardName() {
+		return cardName;
+	}
+	
 	public boolean equals(Card card) {
-		
-		return false;
+		if(card.getCardName() == cardName) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

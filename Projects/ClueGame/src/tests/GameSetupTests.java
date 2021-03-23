@@ -112,4 +112,8 @@ class GameSetupTests {
 		assertTrue(deck.containsKey("Green House"));
 	}
 
+	@Test
+	void TestSolution() {
+
+	}
 }

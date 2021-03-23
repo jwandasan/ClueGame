@@ -4,10 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.awt.Color;
 import java.io.*;
-import java.util.HashSet;
 import java.util.Map.Entry;
-import java.util.Scanner;
-import java.util.Set;
 import java.util.*;
 
 import expirement.TestBoardCell;
@@ -42,6 +39,9 @@ public class Board {
 	private HumanPlayer human;
 	private ComputerPlayer computer;
 	private Map<String, ComputerPlayer> computers = new HashMap<String, ComputerPlayer>();
+	private ArrayList<Player> allPlayers = new ArrayList<Player>();
+	ArrayList<Card> copyDeck = new ArrayList<Card>();
+	private Solution theAnswer = new Solution();
 	private static final int MAX_PLAYERS = 6;
 	
 	private Board() {
@@ -57,9 +57,11 @@ public class Board {
 	public static Board getInstance() {//returns the instance of a single board
 		return theInstance;
 	}
+	
 	public static Map<String,Card> getDeck(){
 		return deckOfCards;
 	}
+	
 	public HumanPlayer getHuman() {
 		return human;
 	}
@@ -67,7 +69,6 @@ public class Board {
 	public Map<String, ComputerPlayer> getComputerList() {
 		return computers;
 	}
-	
 
 	public int getNumColumns() {
 		return numColumns;
@@ -149,6 +150,8 @@ public class Board {
 	public void initialize() throws FileNotFoundException, BadConfigFormatException{ //Loads files properly
 		loadConfigFiles();
 		loadCards();
+		setupSolution();
+		dealCards();
 	}
 	
 	public void loadConfigFiles() throws FileNotFoundException, BadConfigFormatException {//loads the setup and layout configurations
@@ -175,9 +178,9 @@ public class Board {
 						}
 					} else if(split[0].contentEquals("Human") || split[0].contentEquals("Weapon") || split[0].contentEquals("Computer")) {	// Loads information for players and weapons
 						if(split[0].contentEquals("Human")) {
-							System.out.println("Working");
 							characters.add(split[1]);
 							human = new HumanPlayer(split[1], Color.red, Integer.valueOf((split[3])), Integer.valueOf(split[4]));
+							allPlayers.add(human);
 						} else if(split[0].contentEquals("Weapon")) {
 							weapons.add(split[1]);
 						} else if (split[0].contentEquals("Computer")) {
@@ -195,6 +198,7 @@ public class Board {
 							}
 							
 							computers.put(split[1], computer);
+							allPlayers.add(computer);
 						}
 					} else {	// If there is any errors in the file, there will be a BadConfigFormatException
 						throw new BadConfigFormatException();
@@ -502,6 +506,60 @@ public class Board {
 		for(String room: rooms) {
 			Card aRoom = new Card(room);
 			deckOfCards.put(room, aRoom);
+		}
+		for(Map.Entry<String, Card> aCard: deckOfCards.entrySet()) {
+			copyDeck.add(aCard.getValue());
+		}
+	}
+	
+	public void setupSolution() {
+		Random rand = new Random();
+		int randWeaponNum = rand.nextInt(6);
+		int randPersonNum = rand.nextInt(6);
+		int randRoomNum = rand.nextInt(9);
+		int numRoom = 0, numWeapon = 0, numPerson = 0;
+		for(Map.Entry<String, Card> aCard: deckOfCards.entrySet()) {
+			if(aCard.getKey().contentEquals("Weapon")) {
+				if(numWeapon == randWeaponNum) {
+					theAnswer.setWeapon(aCard.getValue());
+					deckOfCards.remove(aCard);
+				}
+				numWeapon++;
+			} else if(aCard.getKey().contentEquals("Person")) {
+				if(numPerson == randPersonNum) {
+					theAnswer.setPerson(aCard.getValue());
+					deckOfCards.remove(aCard);
+				}
+				numPerson++;
+			} else if(aCard.getKey().contentEquals("Room")) {
+				if(numRoom == randRoomNum) {
+					theAnswer.setRoom(aCard.getValue());
+					deckOfCards.remove(aCard);
+				}
+				numRoom++;
+			}
+		}
+	}
+	
+	public void dealCards() {
+		Random rand = new Random();
+		int randSolDeal;
+		randSolDeal = rand.nextInt(6);
+		for (int i = 0; i < MAX_PLAYERS; i++) {
+			if(i == randSolDeal) {
+				allPlayers.get(i).updateHand(theAnswer.getPerson());
+				allPlayers.get(i).updateHand(theAnswer.getRoom());
+				allPlayers.get(i).updateHand(theAnswer.getWeapon());
+				allPlayers.remove(i);
+			}
+		}
+		int iterator = 0;
+		for(int i = 0; i < copyDeck.size(); i++) {
+			allPlayers.get(iterator).updateHand(copyDeck.get(0));
+			copyDeck.remove(0);
+			if (iterator == allPlayers.size() - 1) {
+				iterator = 0;
+			}
 		}
 	}
 	
