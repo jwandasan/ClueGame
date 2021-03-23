@@ -4,7 +4,7 @@ public class Solution {
 	private Card person;
 	private Card room;
 	private Card weapon;
-	
+	private boolean isDealt = false;
 	public void setPerson(Card person) {
 		this.person = person;
 	}
@@ -27,6 +27,12 @@ public class Solution {
 
 	public Card getWeapon() {
 		return weapon;
+	}
+	public void setIsDealt(boolean isDealt) {
+		this.isDealt = isDealt;
+	}
+	public boolean getIsDealt() {
+		return isDealt;
 	}
 	
 	

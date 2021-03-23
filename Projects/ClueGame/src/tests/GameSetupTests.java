@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.Color;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,11 +16,14 @@ import clueGame.Board;
 import clueGame.Card;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
+import clueGame.Player;
+import clueGame.Solution;
 
 class GameSetupTests {
 	
 	private static Board board;
 	private static Map<String,Card> deck;
+	private static Solution testSolution = new Solution();
 	
 
 	@BeforeAll
@@ -32,6 +36,7 @@ class GameSetupTests {
 		board.initialize();
 		
 		deck = Board.getDeck();
+		testSolution = Board.getSolution();
 	}
 	
 	@Test
@@ -82,7 +87,7 @@ class GameSetupTests {
 				comp3 = list.getValue();
 			}
 		}
-		System.out.println(testComp.get("Alexander 23"));
+		
 			//tests first computer
 		assertEquals(Color.black,comp1.getPlayerColor());
 		assertEquals(0, comp1.getPlayerColumn());
@@ -114,6 +119,30 @@ class GameSetupTests {
 
 	@Test
 	void TestSolution() {
-
+		
+		assertTrue(testSolution.getIsDealt() == true);
+	}
+	
+	@Test
+	void TestDealtToPlayers() {
+		Card solPerson = testSolution.getPerson();
+		Card solWeapon = testSolution.getWeapon();
+		Card solRoom = testSolution.getRoom();
+		
+		assertFalse(deck.containsValue(solPerson));
+		assertFalse(deck.containsValue(solWeapon));
+		assertFalse(deck.containsValue(solRoom));
+		ArrayList<Player> allPlayers = board.getAllPlayers();
+		Set<Card> hand = null;
+		for(int i = 0; i < allPlayers.size(); i++) {
+			hand = allPlayers.get(i).getHand();
+			for(Card iter: hand) {
+				assertFalse(hand.contains(solPerson));
+				assertFalse(hand.contains(solWeapon));
+				assertFalse(hand.contains(solRoom));
+			}
+		}
+		
+		
 	}
 }

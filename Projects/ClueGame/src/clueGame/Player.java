@@ -9,6 +9,7 @@ public abstract class Player {
 	private Color color;
 	private Set<Card> hand = new HashSet<Card>();
 	protected int row, column;
+	private boolean hasSol = false;
 	
 	public Player(String name, Color color, Integer row, Integer column) {
 		this.name = name;
@@ -32,4 +33,17 @@ public abstract class Player {
 	public Integer getPlayerColumn() {
 		return column;
 	}
+
+	public boolean isHasSol() {
+		return hasSol;
+	}
+
+	public void setHasSol(boolean hasSol) {
+		this.hasSol = hasSol;
+	}
+	
+	public Set<Card> getHand(){
+		return hand;
+	}
+	
 }

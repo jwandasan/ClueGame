@@ -41,7 +41,7 @@ public class Board {
 	private Map<String, ComputerPlayer> computers = new HashMap<String, ComputerPlayer>();
 	private ArrayList<Player> allPlayers = new ArrayList<Player>();
 	ArrayList<Card> copyDeck = new ArrayList<Card>();
-	private Solution theAnswer = new Solution();
+	private static Solution theAnswer = new Solution();
 	private static final int MAX_PLAYERS = 6;
 	
 	private Board() {
@@ -113,6 +113,14 @@ public class Board {
 	
 	public Set<BoardCell> getTargets() {
 		return targets;
+	}
+	
+	public static Solution getSolution() {
+		return theAnswer;
+	}
+	
+	public ArrayList<Player> getAllPlayers(){
+		return allPlayers;
 	}
 	/*
 	 * Ends section for all getter methods
@@ -539,20 +547,10 @@ public class Board {
 				numRoom++;
 			}
 		}
+		theAnswer.setIsDealt(true);
 	}
 	
 	public void dealCards() {
-		Random rand = new Random();
-		int randSolDeal;
-		randSolDeal = rand.nextInt(6);
-		for (int i = 0; i < MAX_PLAYERS; i++) {
-			if(i == randSolDeal) {
-				allPlayers.get(i).updateHand(theAnswer.getPerson());
-				allPlayers.get(i).updateHand(theAnswer.getRoom());
-				allPlayers.get(i).updateHand(theAnswer.getWeapon());
-				allPlayers.remove(i);
-			}
-		}
 		int iterator = 0;
 		for(int i = 0; i < copyDeck.size(); i++) {
 			allPlayers.get(iterator).updateHand(copyDeck.get(0));
