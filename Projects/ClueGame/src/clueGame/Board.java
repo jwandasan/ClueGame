@@ -157,6 +157,8 @@ public class Board {
 	
 	public void initialize() throws FileNotFoundException, BadConfigFormatException{ //Loads files properly
 		loadConfigFiles();
+	}
+	public void initializeCards() {
 		loadCards();
 		setupSolution();
 		dealCards();

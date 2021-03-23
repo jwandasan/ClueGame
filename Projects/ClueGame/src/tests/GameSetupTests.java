@@ -34,6 +34,7 @@ class GameSetupTests {
 		board.setConfigFiles("ClueLayoutEJ.csv", "ClueSetup.txt");
 		// Initialize will load config files 
 		board.initialize();
+		board.initializeCards();
 		
 		deck = Board.getDeck();
 		testSolution = Board.getSolution();
