@@ -2,9 +2,11 @@ package clueGame;
 
 public class Card {
 	private String cardName;
+	private CardType CardType;
 	
-	public Card(String cardName) {
+	public Card(String cardName, CardType CardType) {
 		this.cardName = cardName;
+		this.CardType = CardType;
 	}
 	
 	public String getCardName() {
@@ -17,5 +19,9 @@ public class Card {
 		} else {
 			return false;
 		}
+	}
+
+	public CardType getCardType() {
+		return CardType;
 	}
 }

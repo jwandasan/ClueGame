@@ -35,7 +35,7 @@ public class Board {
 	private Set<String> rooms = new HashSet<String>();
 	private Set<String> characters = new HashSet<String>();
 	private Set<String> weapons = new HashSet<String>();
-	private static Map<String, Card> deckOfCards = new HashMap<String,Card>();
+	private static Set<Card> deckOfCards = new HashSet<Card>();
 	private HumanPlayer human;
 	private ComputerPlayer computer;
 	private Map<String, ComputerPlayer> computers = new HashMap<String, ComputerPlayer>();
@@ -58,7 +58,7 @@ public class Board {
 		return theInstance;
 	}
 	
-	public static Map<String,Card> getDeck(){
+	public static Set<Card> getDeck(){
 		return deckOfCards;
 	}
 	
@@ -504,21 +504,21 @@ public class Board {
 	 */
 	
 	public void loadCards() {
-		
+		deckOfCards.clear();
 		for(String weapon: weapons) {
-			Card aWeapon = new Card(weapon);
-			deckOfCards.put(weapon, aWeapon);
+			Card aWeapon = new Card(weapon, CardType.WEAPON);
+			deckOfCards.add(aWeapon);
 		}
 		for(String person: characters) {
-			Card aPerson = new Card(person);
-			deckOfCards.put(person, aPerson);
+			Card aPerson = new Card(person, CardType.PERSON);
+			deckOfCards.add(aPerson);
 		}
 		for(String room: rooms) {
-			Card aRoom = new Card(room);
-			deckOfCards.put(room, aRoom);
+			Card aRoom = new Card(room, CardType.ROOM);
+			deckOfCards.add(aRoom);
 		}
-		for(Map.Entry<String, Card> aCard: deckOfCards.entrySet()) {
-			copyDeck.add(aCard.getValue());
+		for(Card copyCard: deckOfCards) {
+			copyDeck.add(copyCard);
 		}
 	}
 	
@@ -528,23 +528,23 @@ public class Board {
 		int randPersonNum = rand.nextInt(6);
 		int randRoomNum = rand.nextInt(9);
 		int numRoom = 0, numWeapon = 0, numPerson = 0;
-		for(Map.Entry<String, Card> aCard: deckOfCards.entrySet()) {
-			if(aCard.getKey().contentEquals("Weapon")) {
+		for(Card aCard: deckOfCards) {
+			if(aCard.getCardType() == CardType.WEAPON) {
 				if(numWeapon == randWeaponNum) {
-					theAnswer.setWeapon(aCard.getValue());
-					deckOfCards.remove(aCard);
+					theAnswer.setWeapon(aCard);
+					copyDeck.remove(aCard);
 				}
 				numWeapon++;
-			} else if(aCard.getKey().contentEquals("Person")) {
+			} else if(aCard.getCardType() == CardType.PERSON) {
 				if(numPerson == randPersonNum) {
-					theAnswer.setPerson(aCard.getValue());
-					deckOfCards.remove(aCard);
+					theAnswer.setPerson(aCard);
+					copyDeck.remove(aCard);
 				}
 				numPerson++;
-			} else if(aCard.getKey().contentEquals("Room")) {
+			} else if(aCard.getCardType() == CardType.ROOM) {
 				if(numRoom == randRoomNum) {
-					theAnswer.setRoom(aCard.getValue());
-					deckOfCards.remove(aCard);
+					theAnswer.setRoom(aCard);
+					copyDeck.remove(aCard);
 				}
 				numRoom++;
 			}
@@ -557,7 +557,7 @@ public class Board {
 		for(int i = 0; i < copyDeck.size(); i++) {
 			allPlayers.get(iterator).updateHand(copyDeck.get(0));
 			copyDeck.remove(0);
-			if (iterator == allPlayers.size() - 1) {
+			if (iterator == allPlayers.size()) {
 				iterator = 0;
 			}
 		}
