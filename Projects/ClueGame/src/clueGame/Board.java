@@ -567,6 +567,21 @@ public class Board {
 	 * 
 	 */
 	
+	/*
+	 * 
+	 * Accusation and suggestion handling
+	 * 
+	 */
+	
+	public void checkAccusation() {
+		
+	}
+	
+	
+	public void handleSuggestion() {
+		
+	}
+	
 }
 
 
