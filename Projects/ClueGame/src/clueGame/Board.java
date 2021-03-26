@@ -31,7 +31,7 @@ public class Board {
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
 	private Map<Character, String> charToName = new HashMap<Character, String>();
 	private Map<Character, Room> roomMap = new HashMap<Character,Room>();
-	private Set<BoardCell> targets = new HashSet<BoardCell>();
+	private static Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<String> rooms = new HashSet<String>();
 	private Set<String> characters = new HashSet<String>();
 	private Set<String> weapons = new HashSet<String>();
@@ -112,7 +112,7 @@ public class Board {
 		return cell.getAdjList();
 	}
 	
-	public Set<BoardCell> getTargets() {
+	public static Set<BoardCell> getTargets() {
 		return targets;
 	}
 	
@@ -585,10 +585,25 @@ public class Board {
 	}
 	
 	
-	public void handleSuggestion() {
+	public Card handleSuggestion() {
+		ArrayList<Card> yesNo = new ArrayList<Card>();
+		boolean noOne = true;
+		Card returnCard = null;
+		for(Player iter: allPlayers) {
+			if(iter.disproveSuggestion(theAnswer) != null) {
+				yesNo.add(iter.disproveSuggestion(theAnswer));
+				noOne = false;
+			}else {
+				continue;
+			}
+		}
 		
+		if(noOne == false) {
+			returnCard = yesNo.get(0);
+		}
+		return returnCard;
 	}
-	
+	 
 }
 
 

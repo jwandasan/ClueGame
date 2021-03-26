@@ -7,8 +7,8 @@ import java.util.Set;
 public abstract class Player {
 	private String name;
 	private Color color;
-	private Set<Card> hand = new HashSet<Card>();
-	private Set<Card> seenCard = new HashSet<Card>();
+	private static Set<Card> hand = new HashSet<Card>();
+	private static Set<Card> seenCard = new HashSet<Card>();//public or private
 	protected int row, column;
 	private boolean hasSol = false;
 	
@@ -57,6 +57,11 @@ public abstract class Player {
 	public Integer getPlayerColumn() {
 		return column;
 	}
+	
+
+	public static Set<Card> getSeenCard() {
+		return seenCard;
+	}
 
 	public boolean isHasSol() {
 		return hasSol;
@@ -66,7 +71,7 @@ public abstract class Player {
 		this.hasSol = hasSol;
 	}
 	
-	public Set<Card> getHand(){
+	public static Set<Card> getHand(){
 		return hand;
 	}
 	
