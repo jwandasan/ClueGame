@@ -9,10 +9,12 @@ public class ComputerPlayer extends Player{
 	}
 
 	public Solution createSuggestion() {
+		return null;
 	
 	}
 	
 	public BoardCell selectTargets() {
+		return null;
 		
 	}
 }

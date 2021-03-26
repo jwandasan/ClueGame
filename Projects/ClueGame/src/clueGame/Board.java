@@ -43,6 +43,7 @@ public class Board {
 	ArrayList<Card> copyDeck = new ArrayList<Card>();
 	private static Solution theAnswer = new Solution();
 	private static final int MAX_PLAYERS = 6;
+	//private static Solution accusation = new Solution();
 	
 	private Board() {
 		super();
@@ -573,8 +574,14 @@ public class Board {
 	 * 
 	 */
 	
-	public void checkAccusation() {
-		
+	public boolean checkAccusation(Solution accusation) { //Takes in accusation
+		boolean verified = false;
+		if((accusation.getPerson().equals(theAnswer.getPerson())) && //boolean checks if all parts of the accusation are indeed the answer
+		   (accusation.getRoom().equals(theAnswer.getRoom())) &&
+		   (accusation.getRoom().equals(theAnswer.getRoom()))) {
+			verified = true;
+		}
+		return verified;
 	}
 	
 	

@@ -19,8 +19,22 @@ public abstract class Player {
 		this.column = column;
 	}
 	
-	public Card disproveSuggestion() {
+	public Card disproveSuggestion(Solution accusation) { //Takes in accusation
 		Card newCard = null;
+		for(Card iter: hand) { //iterates through hand
+			if(iter.equals(accusation.getPerson())) { //Returns card if player holds card said in accusation
+				newCard = accusation.getPerson();
+			}
+			else if (iter.equals(accusation.getRoom())) {
+				newCard = accusation.getRoom();
+			}
+			else if (iter.equals(accusation.getWeapon())) {
+				newCard = accusation.getWeapon();
+			}
+			else {
+				continue;
+			}
+		}
 		return newCard;
 	}
 	
