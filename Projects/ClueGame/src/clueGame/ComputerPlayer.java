@@ -8,4 +8,11 @@ public class ComputerPlayer extends Player{
 		super(name, color, row, column);
 	}
 
+	public Solution createSuggestion() {
+	
+	}
+	
+	public BoardCell selectTargets() {
+		
+	}
 }

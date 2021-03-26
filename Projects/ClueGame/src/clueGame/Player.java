@@ -8,6 +8,7 @@ public abstract class Player {
 	private String name;
 	private Color color;
 	private Set<Card> hand = new HashSet<Card>();
+	private Set<Card> seenCard = new HashSet<Card>();
 	protected int row, column;
 	private boolean hasSol = false;
 	
@@ -16,6 +17,15 @@ public abstract class Player {
 		this.color = color;
 		this.row = row;
 		this.column = column;
+	}
+	
+	public Card disproveSuggestion() {
+		Card newCard = null;
+		return newCard;
+	}
+	
+	public void updateSeen(Card seenCard) {
+		this.seenCard.add(seenCard);
 	}
 
 	public void updateHand(Card card) {
