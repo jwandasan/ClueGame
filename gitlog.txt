@@ -1071,3 +1071,236 @@ Author: vijayabaskaran23 <57746329+vijayabaskaran23@users.noreply.github.com>
 Date:   Tue Feb 23 17:46:17 2021 -0700
 
     Initial commit
+commit 86b8dac199fc2746a6e54d89b36e3921692d839b
+Author: vijayabaskaran@mymail.mines.edu <vijayabaskaran@mymail.mines.edu>
+Date:   Thu Mar 25 22:02:02 2021 -0600
+
+    Making functions, finished with accusation, disproving, handeling, and computer suggestion
+
+commit 913c62d15bb9dd7115ddc762a59ebde1de390662
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Thu Mar 25 18:40:23 2021 -0600
+
+    Forgot to save before last commit
+
+commit 4215334c67c1e7e942f6506f8cb5199385905c2a
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Thu Mar 25 18:36:21 2021 -0600
+
+    Added new class stubs for C20A-1 - Jeric
+
+commit 0b3e240079fd9496e9b66ffcebb1a5386ee59f13
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Tue Mar 23 18:33:10 2021 -0600
+
+    Updated gitlog with new gitlog
+
+commit a52139bf88a647ef2e3a0a38ee4b61658ff1b4c7
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Tue Mar 23 18:32:28 2021 -0600
+
+    Refactored code and changed up tests to match with how we handled card type for checking cards. Also changed deckOfCards to be a set because a map was useless when using CardType to check if a card was a weapon, room, or person. Changed tests and code accordingly as well because we forgot to use card type.
+
+commit 9a16a57e9f3d51d0328b47ca2a7737124d173ce9
+Author: vijayabaskaran@mymail.mines.edu <vijayabaskaran@mymail.mines.edu>
+Date:   Mon Mar 22 21:06:02 2021 -0600
+
+    Added git log
+
+commit e9112b53b71d243335ab4e04530c0e865998f21d
+Author: vijayabaskaran@mymail.mines.edu <vijayabaskaran@mymail.mines.edu>
+Date:   Mon Mar 22 21:05:30 2021 -0600
+
+    Finished fixing old test errors and added commenting
+
+commit 329786517522af73f413781fc8a71670696959b0
+Author: vijayabaskaran@mymail.mines.edu <vijayabaskaran@mymail.mines.edu>
+Date:   Mon Mar 22 20:44:08 2021 -0600
+
+    added git log
+
+commit cfc417f6547f67dce59f62c11dc1a2158a6efc0a
+Author: vijayabaskaran@mymail.mines.edu <vijayabaskaran@mymail.mines.edu>
+Date:   Mon Mar 22 20:43:42 2021 -0600
+
+    Finished and got passing tests for this assignment
+
+commit fb0b3c193f2671d22f1b2881adffdfeddddb8313
+Author: Jeric Wandasan <jtwandasan@mymail.mines.edu>
+Date:   Mon Mar 22 19:58:19 2021 -0600
+
+    Setup solution class, and wrote functions to deal all cards and the solution to the players.
+
+commit ca3f6f4cd51043f7c6f6dbe21606f447c7e02d00
+Author: vijayabaskaran@mymail.mines.edu <vijayabaskaran@mymail.mines.edu>
+Date:   Mon Mar 22 00:04:04 2021 -0600
+
+    Finished Deck created test
+
+commit da8bf37b7ffb511bb2505be6b287e7ea2cf6473f
+Author: vijayabaskaran@mymail.mines.edu <vijayabaskaran@mymail.mines.edu>
+Date:   Sun Mar 21 23:57:38 2021 -0600
+
+    Finished Proper data test
+
+commit be24380246408945707478c08406f589e824ba7e
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Sun Mar 21 23:03:35 2021 -0600
+
+    Worked out bugs to continue coding
+
+commit e99240eed47621f96b46dd3fdb2ea46ef818a1b1
+Author: vijayabaskaran@mymail.mines.edu <vijayabaskaran@mymail.mines.edu>
+Date:   Sun Mar 21 22:46:07 2021 -0600
+
+    Working out errors in test classes
+
+commit 9394cfe631189e63a56e682dc8dbf7b5524ae942
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Sun Mar 21 22:16:31 2021 -0600
+
+    Finished writing code in loadSetupConfig to load in players and cards. - Navigator: Ethan, Driver: Jeric
+
+commit 800234b2363b757a1fba9df27d344ae838331d84
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Sun Mar 21 20:12:28 2021 -0600
+
+    Added functionality to read in characters (player), and weapon data, and got rid of a System.out.println - Jeric
+
+commit 30121dfdf6cbbcef33dbc0e46f78556a0b53633e
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Sun Mar 21 19:56:41 2021 -0600
+
+    Populated ClueSetup.txt with necessary new cards: Players, and Weapons. - Jeric
+
+commit 700b3f82caccc15391aca270864d86ce98cdf2a2
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Sun Mar 21 19:55:38 2021 -0600
+
+    Created all new classes: Player, HumanPlayer, ComputerPlayer, Card, CardType. However, have not fully implemented them as of yet. - Jeric
+
+commit 22c6e94643d485e363c32fd496a0a6d6a9aa483c
+Author: vijayabaskaran@mymail.mines.edu <vijayabaskaran@mymail.mines.edu>
+Date:   Wed Mar 17 21:14:01 2021 -0600
+
+    Updated git log
+
+commit 8427846541007ded0807612a09d556980735d2b2
+Author: vijayabaskaran@mymail.mines.edu <vijayabaskaran@mymail.mines.edu>
+Date:   Wed Mar 17 21:12:45 2021 -0600
+
+    Changed the big else if statement for doors and rooms in loadLayoutConfig to a switch-Statement - Ethan
+
+commit 6a10a17b339ee646d24d608030c236bf72599883
+Author: vijayabaskaran@mymail.mines.edu <vijayabaskaran@mymail.mines.edu>
+Date:   Wed Mar 17 20:53:07 2021 -0600
+
+    Working on Errors
+
+commit 893c6c589b244bbf6075207b5fb9c3399ec55ab1
+Author: vijayabaskaran@mymail.mines.edu <vijayabaskaran@mymail.mines.edu>
+Date:   Wed Mar 17 20:42:04 2021 -0600
+
+    Fixed Testing errors that came up after implementing changes to walkway - Ethan
+
+commit 01ab22aa480590b78959926c6a5edb187af19674
+Author: vijayabaskaran@mymail.mines.edu <vijayabaskaran@mymail.mines.edu>
+Date:   Wed Mar 17 20:40:17 2021 -0600
+
+     Implemented more getters and setters for walkways and increased efficiency of the overall program -Ethan
+
+commit f15b7dfa9c2cd7713b1ada34848c49fc43d53907
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Wed Mar 17 20:07:44 2021 -0600
+
+    Changed function names to allow for better understanding/summary of the function's purpose and tasks - Ethan
+
+commit 838273458e8d180fed3282b4d861ab7f9d337c1a
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Wed Mar 17 19:24:21 2021 -0600
+
+    Updated comments - Jeric
+
+commit c9604efc0f598da6432ca8fe80c84da2116fa75e
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Tue Mar 16 18:46:10 2021 -0600
+
+    Organized code by sectioning through comments
+
+commit 2dbb22c76960fa1b29df6fc519945b4daebaa1d6
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Tue Mar 16 18:38:10 2021 -0600
+
+    Got rid of useless functions, and renamed functions for clarity
+
+commit 5199b81f38d3c5ece88729fde433ec1ecb6e9bf8
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Tue Mar 16 18:21:10 2021 -0600
+
+    Refactored calcAdjacency to pull out methods to make code easier to read and follow
+
+commit eee88488846333a574fc4942916de1dc211bb88d
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Tue Mar 16 18:18:35 2021 -0600
+
+    Pulled instance variables to make editing later easier - Jeric
+
+commit aaff0def53bcaa43e0b5a1431976774ded4100b0
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Thu Mar 11 00:24:48 2021 -0700
+
+    Navigator: Jeric, Driver: Ethan - Finished writing calcAdjacency function, and got all adjacency tests to pass. Part 2: Navigator: Ethan, Driver: Jeric - Finished writing calcTargets function, and ensured target tests and personal tests passed.
+
+commit af2c914326ba9b2776697976434e8734eec9f3f7
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Sun Mar 7 16:28:50 2021 -0700
+
+    Ethan: Created all tests for BoardAdjTargetTest, Jeric: Updated spreadsheet and validated tests.
+
+commit edebc0cc2633dbc63759c754f54b962a8b7b71e2
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Fri Mar 5 23:53:16 2021 -0700
+
+    Driver and Navigator split for all pieces. Finished writing code for all tests, and all tests passed. Code written for loadLayoutConfig, and loadSetupConfig.
+
+commit f79699b5f375d62e34d01365a7cd13bcd757fa54
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Mon Mar 1 22:17:56 2021 -0700
+
+    Driver and Navigator switch halfway through. First half, D: Ethan, N: Jeric - For setting up class stubs and tests.
+
+commit f270e1259b1538cff49b9e277404c2d7b4a788bd
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Mon Mar 1 17:21:51 2021 -0700
+
+    Navigator: Jeric, Driver: Ethan, edited if conditional to account for mixed tests, and finished mixed tests and got all tests to pass.
+
+commit c0a756c4d73540ad442fb5359565afd6904cc77d
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Mon Mar 1 00:45:13 2021 -0700
+
+    Navigator: Jeric, Driver: Ethan - Completed testTargetsNormal, and completed code for calcTargets function.
+
+commit 88e8e0a5b11e69c0ff41c985d897cc305cc35d07
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Mon Mar 1 00:01:34 2021 -0700
+
+    Navigator: Ethan, Driver: Jeric - Completed the code for the function calcAdj(), and finished testAdjacency
+
+commit 6558a6cc64ed32fea79ce771c874198bdc218914
+Author: Jeric Wandasan <jtwandasan@mines.edu>
+Date:   Thu Feb 25 19:45:01 2021 -0700
+
+    Initial push
+
+commit 504066ee170c88056a33a6896831c30ce29eb8e9
+Author: Jeric Wandasan <jtwandasan@mymail.mines.edu>
+Date:   Thu Feb 25 19:01:52 2021 -0700
+
+    Driver: Ethan, Navigator: Jeric
+
+commit 9b50552fdaf92a0f285860bbbbf35668048a9778
+Author: vijayabaskaran23 <57746329+vijayabaskaran23@users.noreply.github.com>
+Date:   Tue Feb 23 17:46:17 2021 -0700
+
+    Initial commit
