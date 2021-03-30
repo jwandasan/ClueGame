@@ -24,7 +24,7 @@ class GameSetupTests {
 	
 	private static Board board;
 	private static Set<Card> deck;
-	private static Solution testSolution = new Solution();
+	private static Solution testSolution;
 	private static Card batCard, knifeCard, handgunCard, swordCard, hammerCard, panCard, atriumCard, readingAreaCard, collectorsRoomCard,
 					    officeCard, closetCard, studioCard, bathroomCard, musicRoomCard, greenHouseCard, quinnCard, alexCard, jeremyCard,
 					    chelseaCard, ayokayCard, jonCard;

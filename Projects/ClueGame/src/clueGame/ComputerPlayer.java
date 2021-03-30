@@ -7,12 +7,13 @@ import java.util.Random;
 import java.util.Set;
 
 public class ComputerPlayer extends Player{
-	private static Set<Card> seen;
+	private static Set<Card> seen = new HashSet<Card>();
+	private Solution aSolution = new Solution();
 	public ComputerPlayer(String name, Color color, Integer row, Integer column) {
 		super(name, color, row, column);
 	}
 
-	public Solution createSuggestion() {
+	public void createSuggestion() {
 		Random rand = new Random();
 		Solution suggestion = null;
 		Set<Card> unSeen = Player.getHand();//Starts as current hand
@@ -63,21 +64,59 @@ public class ComputerPlayer extends Player{
 		randPerson = unSeenPeople.get(rand.nextInt(unSeenPeople.size()));
 		randRoom = unSeenRooms.get(rand.nextInt(unSeenRooms.size()));
 		
-		//sets to suggestion
-		suggestion.setWeapon(randWeapon);
-		suggestion.setPerson(randPerson);
-		suggestion.setRoom(randRoom);
-		
-		//returns 
-		return suggestion;
+		chooseSolution(randRoom, randPerson, randWeapon);
 	}
 	
-	public BoardCell selectTargets() {
+	
+	public Solution chooseSolution(Card roomAnswer, Card personAnswer, Card weaponAnswer) {
+		aSolution.setRoom(roomAnswer);
+		aSolution.setPerson(personAnswer);
+		aSolution.setWeapon(weaponAnswer);
+		return aSolution;
+		
+	}
+	
+	public void updateSeen(Card aCard) {
+		seen.add(aCard);
+	}
+	
+	public Solution getSolution() {
+		return aSolution;
+	}
+	
+	public BoardCell selectTargets(Set<BoardCell> setOfTargets) {
 		Random rand = new Random();
 		BoardCell room = new BoardCell(row,column);
 		boolean select = true;
-		Set<BoardCell> targets = Board.getTargets();
+		Set<BoardCell> targets = setOfTargets;
 		BoardCell returnRoom = null;
+		for(BoardCell aCell: setOfTargets) {
+			if (aCell.isRoom()) {
+				for(Card iter: seen) {
+					if (iter.getCardName().equals(aCell.getRoomName())) {
+						select = false;
+					}
+				}
+				if(select == false) {
+					if(aCell.isRoom()) {
+						returnRoom = aCell;
+					}	
+				}
+			} else {
+				int randVar = rand.nextInt(targets.size());
+				int iter = 0;
+				for(BoardCell randRoom: targets) {
+					if(iter == randVar) {
+						returnRoom = randRoom;
+						break;
+					}
+					else {
+						iter++;
+					}
+				}
+			}
+		}
+		/*
 		if(room.isRoom()) {
 			for(Card iter: seen) {
 				if (iter.getCardName().equals(room.getRoomName())) {
@@ -100,6 +139,7 @@ public class ComputerPlayer extends Player{
 				}
 			}
 		}
+		*/
 		return returnRoom;
 		
 	}

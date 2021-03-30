@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.Color;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Random;
 
 public abstract class Player {
 	private String name;
@@ -34,12 +35,16 @@ public abstract class Player {
 			else {
 				continue;
 			}
-		}
+		} 
 		return newCard;
 	}
 	
+	public void clearHand() {
+		hand.clear();
+	}
+	
 	public void updateSeen(Card seenCard) {
-		this.seenCard.add(seenCard);
+		Player.seenCard.add(seenCard);
 	}
 
 	public void updateHand(Card card) {

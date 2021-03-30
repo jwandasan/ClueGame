@@ -5,6 +5,17 @@ public class Solution {
 	private Card room;
 	private Card weapon;
 	private boolean isDealt = false;
+	
+	public Solution(Card setRoom, Card setPerson, Card setWeapon){
+	this.person = setPerson;
+	this.weapon = setWeapon;
+	this.room = setRoom;
+	}
+	
+	public Solution() {
+		super();
+	}
+	
 	public void setPerson(Card person) {
 		this.person = person;
 	}
