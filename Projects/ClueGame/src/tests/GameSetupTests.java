@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import clueGame.BadConfigFormatException;
