@@ -7,7 +7,7 @@ import java.util.Random;
 
 public abstract class Player {
 	private String name;
-	private Color color;
+	private static Color color;
 	private static Set<Card> hand = new HashSet<Card>();
 	private static Set<Card> seenCard = new HashSet<Card>();//public or private
 	protected int row, column;
@@ -53,7 +53,7 @@ public abstract class Player {
 	public String getPlayerName() {
 		return name;
 	}
-	public Color getPlayerColor() {
+	public static Color getPlayerColor() {
 		return color;
 	}
 	public Integer getPlayerRow() {

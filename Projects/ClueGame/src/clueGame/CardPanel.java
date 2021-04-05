@@ -93,7 +93,7 @@ public class CardPanel extends JPanel {
 		
 		// Creates a new panel for people that have been seen
 		JLabel seenRoomLabel = new JLabel("Seen:");
-		roomsSeen.setLayout(new GridLayout(8,0));
+		roomsSeen.setLayout(new GridLayout(8,1));
 		roomsSeen.setName("Seen:");
 		roomsSeen.add(seenRoomLabel);
 		roomPanel.add(roomsSeen);
@@ -156,7 +156,8 @@ public class CardPanel extends JPanel {
 		for(Card aCard: roomsSeen) {
 			if(aCard.getCardType() == CardType.ROOM) {
 				JTextField peopleText = new JTextField(5);
-				peopleText.setText(aCard.getCardName());
+				peopleText.setText(aCard.getCardName());  //add color
+				peopleText.setBackground(Player.getPlayerColor()); //Need to implement who the card is coming from. 
 				this.roomsSeen.add(peopleText, BorderLayout.PAGE_END);
 			}
 		}
