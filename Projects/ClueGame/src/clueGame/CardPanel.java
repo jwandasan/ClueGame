@@ -17,6 +17,7 @@ public class CardPanel extends JPanel {
 	private JTextField weaponHand = new JTextField();
 	private JPanel weaponsSeen = new JPanel();
 	
+	// Creates cards for testing
 	private static Card batCard = new Card("Bat", CardType.WEAPON);
 	private static Card knifeCard = new Card("Knife", CardType.WEAPON);
 	private static Card handgunCard = new Card("Handgun", CardType.WEAPON);
@@ -32,7 +33,7 @@ public class CardPanel extends JPanel {
 	private static Card bathroomCard = new Card("Bathroom", CardType.ROOM);
 	private static Card musicRoomCard = new Card("Music Room", CardType.ROOM);
 	private static Card greenHouseCard = new Card("Green House", CardType.ROOM);
-	private Card quinnCard = new Card("Quinn XCII", CardType.PERSON);
+	private static Card quinnCard = new Card("Quinn XCII", CardType.PERSON);
 	private static Card alexCard = new Card("Alexander 23", CardType.PERSON);
 	private static Card jeremyCard = new Card("Jeremy Zucker", CardType.PERSON);
 	private static Card chelseaCard = new Card("Chelsea Cutler", CardType.PERSON);
@@ -131,7 +132,7 @@ public class CardPanel extends JPanel {
 		return panel;
 	}
 	
-	public void setPeopleHand(Card personCard) {
+	public void setPeopleHand(Card personCard) { //Sets the hand o
 		peopleHand.setEditable(false);
 		peopleHand.setText(personCard.getCardName());
 	}
@@ -172,8 +173,7 @@ public class CardPanel extends JPanel {
 				if(aCard.getCardType() == CardType.ROOM) {
 					JTextField roomText = new JTextField(5);
 					roomText.setEditable(false);
-					roomText.setText(aCard.getCardName());  //add color
-					roomText.setBackground(Player.getPlayerColor()); //Need to implement who the card is coming from. 
+					roomText.setText(aCard.getCardName());
 					this.roomsSeen.add(roomText, BorderLayout.PAGE_END);
 				}
 			}
@@ -217,12 +217,8 @@ public class CardPanel extends JPanel {
 		frame.setVisible(true); // make it visible
 		
 		HumanPlayer aHuman = new HumanPlayer("Quinn XCII", Color.red, 0, 7);
-		ComputerPlayer computerOne = new ComputerPlayer("Alexander 23", Color.black, 18, 0);
-		ComputerPlayer computerTwo = new ComputerPlayer("Jeremy Zucker", Color.blue, 24, 9);
-		ComputerPlayer computerThree = new ComputerPlayer("Chelsea Cutler", Color.green, 7, 23);
-		ComputerPlayer computerFour = new ComputerPlayer("Ayokay", Color.cyan, 24, 14);
-		ComputerPlayer computerFive = new ComputerPlayer("Jon Bellion", Color.yellow, 17, 23);
 		
+		// Updates players hand with cards for testing to see if panel/frame will fit everything
 		aHuman.updateHand(jonCard);
 		aHuman.updateHand(batCard);
 		aHuman.updateHand(atriumCard);
@@ -246,6 +242,8 @@ public class CardPanel extends JPanel {
 		aHuman.updateSeen(greenHouseCard);
 		Set<Card> humanSeenCards = aHuman.getSeenCard();
 		
+		
+		// Tests that panel will update appropriately with passed in information
 		panel.setPeopleHand(jonCard);
 		panel.setWeaponHand(batCard);
 		panel.setRoomHand(atriumCard);
