@@ -19,9 +19,9 @@ public class GameControlPanel extends JPanel{
 	public GameControlPanel() {
 		setLayout(new GridLayout(2,0));
 		JPanel panel = createTopPanel();
-		add(panel, BorderLayout.NORTH);
-		panel = createBottomPanel();
-		add(panel, BorderLayout.SOUTH);
+		add(panel, BorderLayout.NORTH);	// Adds top of total panel with Whose Turn it is, roll, and the required buttons
+		panel = createBottomPanel();	
+		add(panel, BorderLayout.SOUTH); // Adds bottom half of total panel with guess and guessResult
 	}
 	
 	private JPanel createTopPanel() {
@@ -88,12 +88,12 @@ public class GameControlPanel extends JPanel{
 	
 	public void setGuess(String guess) {
 		theGuess.setEditable(false);
-		theGuess.setText(guess);
+		theGuess.setText(guess); // Updates JTextField theGuess with the right information passed in.
 	}
 	
 	public void setGuessResult(String guessResult) {
 		this.guessResult.setEditable(false);
-		this.guessResult.setText(guessResult);
+		this.guessResult.setText(guessResult); // Updates JTextField guessResult with the right information passed in.
 	}
 	
 	

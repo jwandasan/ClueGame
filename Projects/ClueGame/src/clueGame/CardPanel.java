@@ -132,19 +132,20 @@ public class CardPanel extends JPanel {
 		return panel;
 	}
 	
-	public void setPeopleHand(Card personCard) { //Sets the hand o
+	public void setPeopleHand(Card personCard) { //Sets the text for people
 		peopleHand.setEditable(false);
 		peopleHand.setText(personCard.getCardName());
 	}
 	
 	public void setPeopleSeen(Set<Card> peopleSeen) {
+		//Sets people seen values
 		if(peopleSeen.isEmpty()) {
 			JTextField peopleText = new JTextField(5);
 			peopleText.setEditable(false);
 			peopleText.setText("None");
 			this.peopleSeen.add(peopleText, BorderLayout.PAGE_END);
 		} else {
-			for(Card aCard: peopleSeen) {
+			for(Card aCard: peopleSeen) { //iterates through the peopleSeen and writes the values
 				if(aCard.getCardType() == CardType.PERSON) {
 					JTextField peopleText = new JTextField(5);
 					peopleText.setEditable(false);
@@ -158,11 +159,13 @@ public class CardPanel extends JPanel {
 	}
 	
 	public void setRoomHand(Card roomCard) {
+		//Writes the roomCard
 		roomHand.setEditable(false);
 		roomHand.setText(roomCard.getCardName());
 	}
 	
 	public void setRoomSeen(Set<Card> roomsSeen) {
+		//Sets rooms seen in a similar manner
 		if(roomsSeen.isEmpty()) {
 			JTextField roomText = new JTextField(5);
 			roomText.setEditable(false);
