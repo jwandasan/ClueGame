@@ -77,6 +77,8 @@ public class GameControlPanel extends JPanel{
 	}
 	
 	public void setTurn(ComputerPlayer aPlayer, int turnNum) {
+		currPlayer.setEditable(false);
+		rollText.setEditable(false);
 		String playerName = aPlayer.getPlayerName();
 		Color color = aPlayer.getPlayerColor();
 		currPlayer.setBackground(color);
@@ -85,10 +87,12 @@ public class GameControlPanel extends JPanel{
 	}
 	
 	public void setGuess(String guess) {
+		theGuess.setEditable(false);
 		theGuess.setText(guess);
 	}
 	
 	public void setGuessResult(String guessResult) {
+		this.guessResult.setEditable(false);
 		this.guessResult.setText(guessResult);
 	}
 	

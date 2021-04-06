@@ -132,50 +132,78 @@ public class CardPanel extends JPanel {
 	}
 	
 	public void setPeopleHand(Card personCard) {
+		peopleHand.setEditable(false);
 		peopleHand.setText(personCard.getCardName());
 	}
 	
 	public void setPeopleSeen(Set<Card> peopleSeen) {
-		int peopleCount = 0;
-		for(Card aCard: peopleSeen) {
-			if(aCard.getCardType() == CardType.PERSON) {
-				peopleCount++;
-				JTextField peopleText = new JTextField(5);
-				peopleText.setText(aCard.getCardName());
-				this.peopleSeen.add(peopleText, BorderLayout.PAGE_END);
+		if(peopleSeen.isEmpty()) {
+			JTextField peopleText = new JTextField(5);
+			peopleText.setEditable(false);
+			peopleText.setText("None");
+			this.peopleSeen.add(peopleText, BorderLayout.PAGE_END);
+		} else {
+			for(Card aCard: peopleSeen) {
+				if(aCard.getCardType() == CardType.PERSON) {
+					JTextField peopleText = new JTextField(5);
+					peopleText.setEditable(false);
+					peopleText.setText(aCard.getCardName());
+					this.peopleSeen.add(peopleText, BorderLayout.PAGE_END);
+				}
 			}
 		}
+		
 		this.peopleSeen.updateUI();
 	}
 	
 	public void setRoomHand(Card roomCard) {
+		roomHand.setEditable(false);
 		roomHand.setText(roomCard.getCardName());
 	}
 	
 	public void setRoomSeen(Set<Card> roomsSeen) {
-		for(Card aCard: roomsSeen) {
-			if(aCard.getCardType() == CardType.ROOM) {
-				JTextField peopleText = new JTextField(5);
-				peopleText.setText(aCard.getCardName());  //add color
-				peopleText.setBackground(Player.getPlayerColor()); //Need to implement who the card is coming from. 
-				this.roomsSeen.add(peopleText, BorderLayout.PAGE_END);
+		if(roomsSeen.isEmpty()) {
+			JTextField roomText = new JTextField(5);
+			roomText.setEditable(false);
+			roomText.setText("None");
+			this.roomsSeen.add(roomText, BorderLayout.PAGE_END);
+		} else {
+			for(Card aCard: roomsSeen) {
+				if(aCard.getCardType() == CardType.ROOM) {
+					JTextField roomText = new JTextField(5);
+					roomText.setEditable(false);
+					roomText.setText(aCard.getCardName());  //add color
+					roomText.setBackground(Player.getPlayerColor()); //Need to implement who the card is coming from. 
+					this.roomsSeen.add(roomText, BorderLayout.PAGE_END);
+				}
 			}
 		}
+
 		this.roomsSeen.updateUI();
 	}
 	
 	public void setWeaponHand(Card weaponCard) {
+		weaponHand.setEditable(false);
 		weaponHand.setText(weaponCard.getCardName());
 	}
 	
 	public void setWeaponSeen(Set<Card> weaponsSeen) {
-		for(Card aCard: weaponsSeen) {
-			if(aCard.getCardType() == CardType.WEAPON) {
-				JTextField peopleText = new JTextField(5);
-				peopleText.setText(aCard.getCardName());
-				this.weaponsSeen.add(peopleText, BorderLayout.PAGE_END);
+		if(weaponsSeen.isEmpty()) {
+			JTextField weaponText = new JTextField(5);
+			weaponText.setEditable(false);
+			weaponText.setText("None");
+			this.roomsSeen.add(weaponText, BorderLayout.PAGE_END);
+		} else {
+			for(Card aCard: weaponsSeen) {
+				if(aCard.getCardType() == CardType.WEAPON) {
+					JTextField weaponText = new JTextField(5);
+					weaponText.setEditable(false);
+					weaponText.setText(aCard.getCardName());
+					this.weaponsSeen.add(weaponText, BorderLayout.PAGE_END);
+				}
 			}
 		}
+
 		this.weaponsSeen.updateUI();
 	}
 	
