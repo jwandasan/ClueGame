@@ -3,8 +3,12 @@ package clueGame;
 import java.io.*;
 import java.util.*;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.*;
 import java.util.Map.Entry;
+
+import javax.swing.JPanel;
+
 import java.util.*;
 
 import expirement.TestBoardCell;
@@ -19,7 +23,7 @@ import expirement.TestBoardCell;
  * 
  */
 
-public class Board {
+public class Board extends JPanel{
 	//Initialization of all variables
 	private static Board theInstance = new Board();
 	private BoardCell[][] grid;
@@ -602,6 +606,15 @@ public class Board {
 			returnCard = yesNo.get(0);
 		}
 		return returnCard;
+	}
+	
+	/*
+	 * 
+	 */
+	
+	public void paintComponent(Graphics theBoard) {
+		super.paintComponent(theBoard);
+		
 	}
 	 
 }
