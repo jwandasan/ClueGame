@@ -16,8 +16,8 @@ public class ComputerPlayer extends Player{
 	public void createSuggestion() {
 		Random rand = new Random();
 		Solution suggestion = null;
-		Set<Card> unSeen = Player.getHand();//Starts as current hand
-		seen = Player.getSeenCard();//collects seen card
+		Set<Card> unSeen = getHand();//Starts as current hand
+		seen = getSeenCard();//collects seen card
 		
 		//Sets arraylists of specific cards
 		ArrayList<Card> unSeenWeapons = new ArrayList<Card>();

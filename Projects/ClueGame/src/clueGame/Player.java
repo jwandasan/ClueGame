@@ -7,9 +7,9 @@ import java.util.Random;
 
 public abstract class Player {
 	private String name;
-	private static Color color;
-	private static Set<Card> hand = new HashSet<Card>();
-	private static Set<Card> seenCard = new HashSet<Card>();//public or private
+	private Color color;
+	private Set<Card> hand = new HashSet<Card>();
+	private Set<Card> seenCard = new HashSet<Card>();//public or private
 	protected int row, column;
 	private boolean hasSol = false;
 	
@@ -44,7 +44,7 @@ public abstract class Player {
 	}
 	
 	public void updateSeen(Card seenCard) {
-		Player.seenCard.add(seenCard);
+		this.seenCard.add(seenCard);
 	}
 
 	public void updateHand(Card card) {
@@ -53,7 +53,7 @@ public abstract class Player {
 	public String getPlayerName() {
 		return name;
 	}
-	public static Color getPlayerColor() {
+	public Color getPlayerColor() {
 		return color;
 	}
 	public Integer getPlayerRow() {
@@ -64,7 +64,7 @@ public abstract class Player {
 	}
 	
 
-	public static Set<Card> getSeenCard() {
+	public Set<Card> getSeenCard() {
 		return seenCard;
 	}
 
@@ -76,7 +76,7 @@ public abstract class Player {
 		this.hasSol = hasSol;
 	}
 	
-	public static Set<Card> getHand(){
+	public Set<Card> getHand(){
 		return hand;
 	}
 	

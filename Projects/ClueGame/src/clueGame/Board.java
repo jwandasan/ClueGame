@@ -277,6 +277,8 @@ public class Board extends JPanel{
 					// Including doorways, walkways, and center/labels
 					if(labels[j].charAt(0) == 'W') {
 						cell.setIsWalkway(true);
+					} else if(labels[j].charAt(0) == 'X') {
+						cell.setIsEmpty(true);
 					}
 					if(labels[j].length() > 1) {
 						switch(labels[j].charAt(1)) {
@@ -303,6 +305,7 @@ public class Board extends JPanel{
 						case '#':
 							cell.setLabel(labels[j]);
 							cell.setIsLabel(true);
+							room.setLabelCell(cell);
 							break;
 						case '*':
 							cell.setLabel(labels[j]);
@@ -317,7 +320,7 @@ public class Board extends JPanel{
 						}
 					} else if(labels[j].length() == 1) {
 						cell.setLabel(roomName);
-					} 
+					}
 				}
 			}
 			inTwo.close();
@@ -612,11 +615,33 @@ public class Board extends JPanel{
 	 * 
 	 */
 	
-	public void paintComponent(Graphics theBoard) {
-		super.paintComponent(theBoard);
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		
+		int width = this.getWidth();
+		int height = this.getHeight();
+		
+		int x = width/numColumns;	// Gets the scalar for the width
+		int y = height/numRows;		// Gets the scalar for the height
+		
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j < numColumns; j++) {
+				grid[i][j].drawCell(g, x, y);		// Handles drawing all of the cells
+				if(grid[i][j].isLabel()) {			// Handles drawing all of the labels, and rooms
+					grid[i][j].drawRoom(g, x, y);
+				}
+			}
+		}
+		for(int i = 0; i < allPlayers.size(); i++) {
+			drawPlayers(g, allPlayers.get(i), x, y);	// Handles drawing the players
+		}
 	}
-	 
+	
+	public void drawPlayers(Graphics g, Player aPlayer , int x, int y) { 
+		g.setColor(aPlayer.getPlayerColor()); 			// Collects players color
+		g.fillOval(aPlayer.getPlayerColumn() * x, aPlayer.getPlayerRow() * y, x, y); //Fills oval with color of the player
+	}
+	
 }
 
 

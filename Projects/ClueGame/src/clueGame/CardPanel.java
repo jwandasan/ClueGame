@@ -43,6 +43,7 @@ public class CardPanel extends JPanel {
 	public CardPanel() {
 		setLayout(new GridLayout(3,0));
 		JPanel panel = createPeoplePanel();
+		setSize(new Dimension(300,700));
 		setBorder(new TitledBorder("Known Cards"));
 		add(panel);
 		

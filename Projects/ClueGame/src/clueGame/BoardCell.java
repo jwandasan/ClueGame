@@ -1,6 +1,10 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.util.*;
+import java.awt.font.*;
 
 //import com.sun.org.apache.bcel.internal.generic.RETURN;
 
@@ -13,8 +17,6 @@ import java.util.*;
  * Handles the creation of individual cells, and tracking certain cells within a board instance.
  * 
  */
-
-import expirement.TestBoardCell;
 
 public class BoardCell {
 	private int row, col;
@@ -29,6 +31,8 @@ public class BoardCell {
 	private boolean isCenter;
 	private boolean isSecret;
 	private boolean isWalkway;
+	private boolean isEmpty;
+	private static final int OFFSET = 2;
 	Set<BoardCell> adjList;
 	
 	
@@ -98,6 +102,9 @@ public class BoardCell {
 	
 	public boolean isWalkway() {
 		return isWalkway;
+	}
+	public boolean isEmpty() {
+		return isEmpty;
 	}
 	/*
 	 * Ends section for all getter methods
@@ -169,6 +176,9 @@ public class BoardCell {
 		this.secretPassage = sk;
 	}
 	
+	public void setIsEmpty(boolean value) {
+		this.isEmpty = true;
+	}
 	/*
 	 * Ends section for all setter methods
 	 */
@@ -181,6 +191,45 @@ public class BoardCell {
 	public void addAdjacency(BoardCell cell) {
 		adjList.add(cell);
 	}
+	
+	public void drawCell(Graphics g, int x, int y) {
+		Color color = Color.green;
+		if (isDoorway()) {
+			color = Color.blue;
+		} else if (isWalkway()) {
+			color = Color.green;
+		}
+		if(isWalkway()) {
+			g.setColor(Color.black);
+			g.drawRect(col * x, row * y, x, y);	// Creates the initial rectangle
+			g.setColor(Color.lightGray);
+			g.fillRect((col * x + OFFSET), (row * y + OFFSET), x - OFFSET, y - OFFSET);	// Fills rectangle and OFFSET is needed to ensure that the outer black borders are drawn properly
+			if(getDoorDirection() == DoorDirection.DOWN){ //Determines how to set which side the door should be on (UP, DOWN, RIGHT, LEFT)
+				g.setColor(color);
+				g.fillRect(col * x , row * y + 28, x, y - 27);
+			} else if(getDoorDirection() == DoorDirection.UP) {
+				g.setColor(color);
+				g.fillRect(col * x , row * y, x, y - 27);
+			} else if(getDoorDirection() == DoorDirection.LEFT) {
+				g.setColor(color);
+				g.fillRect(col * x, row * y, x - 35, y);
+			} else if(getDoorDirection() == DoorDirection.RIGHT) {
+				g.setColor(color);
+				g.fillRect(col * x + 37, row * y, x -35, y);
+			}
+		} else if(isEmpty()) {
+			g.setColor(Color.black);	// If the cell is "Unused" it will be blacked out.
+			g.fillRect(col * x, row * y, x, y);
+		}
+	}
+	
+	public void drawRoom(Graphics g, int x, int y) {	// This function will print the room name where the label is supposed to be
+		Font font = new Font("Sans Seriff Plain", Font.PLAIN, 15);
+		g.setColor(Color.black);
+		g.setFont(font);
+		g.drawString(roomName, col * x, row * y);
+	}
+	
 	/*
 	 * Ends section for all other functions
 	 */
