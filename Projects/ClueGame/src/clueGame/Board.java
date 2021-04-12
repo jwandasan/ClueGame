@@ -648,8 +648,11 @@ public class Board extends JPanel{
 		g.fillOval(aPlayer.getPlayerColumn() * x, aPlayer.getPlayerRow() * y, x, y); //Fills oval with color of the player
 	}
 	
-	public void displayTargets() {
-		
+	public void drawTargets(Graphics g, Player aPlayer,int x, int y) {
+		g.setColor(Color.yellow);
+		for(BoardCell i: targets) {
+			g.fillRect(i.getCol(),i.getRow(),x,y);
+		}
 	}
 	
 	/*
