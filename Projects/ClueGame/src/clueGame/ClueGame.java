@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.io.FileNotFoundException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class ClueGame extends JFrame {
 	public ClueGame() throws FileNotFoundException, BadConfigFormatException {
@@ -23,8 +24,8 @@ public class ClueGame extends JFrame {
 		add(gameControlPanel, BorderLayout.SOUTH);	// Adds the game control panel at the bottom of the frame
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Exits
+		JOptionPane.showMessageDialog(this, "You are Quinn XCII. \n Can you find the solution \n before the Computer Players?");
 		setVisible(true);	// Makes the frame visible
-		
 		
 	}
 	

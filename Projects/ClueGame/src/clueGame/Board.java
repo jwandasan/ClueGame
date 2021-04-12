@@ -615,6 +615,12 @@ public class Board extends JPanel{
 	 * 
 	 */
 	
+	/*
+	 * 
+	 * Handles painting the board, and displaying targets
+	 * 
+	 */
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -642,6 +648,21 @@ public class Board extends JPanel{
 		g.fillOval(aPlayer.getPlayerColumn() * x, aPlayer.getPlayerRow() * y, x, y); //Fills oval with color of the player
 	}
 	
+	public void displayTargets() {
+		
+	}
+	
+	/*
+	 * 
+	 * Player turn handling
+	 * 
+	 */
+	
+	public Player getNextPlayer(Player currPlayer, int turnNum) {
+		Player nextPlayer = null;
+		nextPlayer = allPlayers.get(turnNum);
+		return nextPlayer;
+	}
 }
 
 

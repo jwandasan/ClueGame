@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -13,8 +17,11 @@ public class GameControlPanel extends JPanel{
 	private JTextField guessResult = new JTextField(5);
 	private JTextField currPlayer = new JTextField(5);
 	private JTextField rollText = new JTextField(5);
-	private ComputerPlayer currentTurn;
-	private int turnNum; 
+	private Player currentTurn;
+	private static Board board = Board.getInstance();
+	private boolean unfinished;
+	private int rollNum; 
+	private int turnNum = 0;
 	
 	public GameControlPanel() {
 		setLayout(new GridLayout(2,0));
@@ -22,6 +29,10 @@ public class GameControlPanel extends JPanel{
 		add(panel, BorderLayout.NORTH);	// Adds top of total panel with Whose Turn it is, roll, and the required buttons
 		panel = createBottomPanel();	
 		add(panel, BorderLayout.SOUTH); // Adds bottom half of total panel with guess and guessResult
+		rollDice();
+		ArrayList<Player> players = board.getAllPlayers();
+		currentTurn = players.get(0);
+		setTurn(players.get(0), rollNum);
 	}
 	
 	private JPanel createTopPanel() {
@@ -49,6 +60,7 @@ public class GameControlPanel extends JPanel{
 		// Adds 2 buttons needed for player interaction
 		JButton accusation = new JButton("Make Accusation");
 		JButton next = new JButton("NEXT!");
+		next.addActionListener((new ButtonListener()));
 		panel.add(accusation);
 		panel.add(next);
 		return panel;
@@ -76,7 +88,7 @@ public class GameControlPanel extends JPanel{
 		return panel;
 	}
 	
-	public void setTurn(ComputerPlayer aPlayer, int turnNum) {
+	public void setTurn(Player aPlayer, int turnNum) {
 		currPlayer.setEditable(false);
 		rollText.setEditable(false);
 		String playerName = aPlayer.getPlayerName();
@@ -96,6 +108,45 @@ public class GameControlPanel extends JPanel{
 		this.guessResult.setText(guessResult); // Updates JTextField guessResult with the right information passed in.
 	}
 	
+	private class ButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(turnNum == 5) {
+				turnNum = 0;
+			} else {
+				turnNum++;
+			}
+			currentTurn = board.getNextPlayer(currentTurn, turnNum);
+			rollDice();
+			BoardCell aCell = new BoardCell(currentTurn.getPlayerColumn(), currentTurn.getPlayerRow());
+			board.calcTargetExecute(aCell, rollNum);
+			setTurn(currentTurn, rollNum);
+			if(currentTurn instanceof HumanPlayer) {
+			
+			} else if(currentTurn instanceof ComputerPlayer) {
+				
+			}
+		}
+		
+	}
+	
+	public int rollDice() {
+		Random rand = new Random();
+		while(true) {
+			rollNum = rand.nextInt(6);
+			if(rollNum > 0) {
+				break;
+			} else {
+				rollNum = rand.nextInt(6);
+			}
+		}
+		
+		return this.rollNum;
+	}
+	
+	public void setUnfinished(boolean status) {
+		this.unfinished = status;
+	}
 	
 	public static void main(String[] args) {
 		GameControlPanel panel = new GameControlPanel();  // create the panel
