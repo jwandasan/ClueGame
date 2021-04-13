@@ -14,7 +14,7 @@ public class ClueGame extends JFrame {
 		board.initialize();	// Loads the files to create board, and get all needed information
 		
 		GameControlPanel gameControlPanel = new GameControlPanel(); //creates gamecontrol object and cardPanel object
-		CardPanel cardPanel = new CardPanel();
+	    CardPanel cardPanel = new CardPanel();
 		
 		setTitle("Clue Game");//Sets title and sizing
 		setSize(1000,1000);

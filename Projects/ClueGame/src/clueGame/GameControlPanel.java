@@ -3,11 +3,15 @@ package clueGame;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -33,6 +37,8 @@ public class GameControlPanel extends JPanel{
 		ArrayList<Player> players = board.getAllPlayers();
 		currentTurn = players.get(0);
 		setTurn(players.get(0), rollNum);
+		BoardCell aCell = board.getCell(currentTurn.getPlayerRow(), currentTurn.getPlayerColumn());
+		board.drawTargets(aCell, rollNum, currentTurn);
 	}
 	
 	private JPanel createTopPanel() {
@@ -118,17 +124,19 @@ public class GameControlPanel extends JPanel{
 			}
 			currentTurn = board.getNextPlayer(currentTurn, turnNum);
 			rollDice();
-			BoardCell aCell = new BoardCell(currentTurn.getPlayerColumn(), currentTurn.getPlayerRow());
-			board.calcTargetExecute(aCell, rollNum);
 			setTurn(currentTurn, rollNum);
 			if(currentTurn instanceof HumanPlayer) {
-			
+				
+				BoardCell aCell = board.getCell(currentTurn.getPlayerRow(), currentTurn.getPlayerColumn());
+				board.drawTargets(aCell, rollNum, currentTurn);
 			} else if(currentTurn instanceof ComputerPlayer) {
+				board.computerTargets(currentTurn, rollNum);
 				
 			}
 		}
-		
 	}
+	
+
 	
 	public int rollDice() {
 		Random rand = new Random();

@@ -3,6 +3,10 @@ package clueGame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.*;
 import java.awt.font.*;
 
@@ -20,6 +24,7 @@ import java.awt.font.*;
 
 public class BoardCell {
 	private int row, col;
+	private int width, height;
 	private char initial;
 	private String label;
 	private String roomName;
@@ -32,6 +37,7 @@ public class BoardCell {
 	private boolean isSecret;
 	private boolean isWalkway;
 	private boolean isEmpty;
+	private boolean isTarget;
 	private static final int OFFSET = 2;
 	Set<BoardCell> adjList;
 	
@@ -106,6 +112,10 @@ public class BoardCell {
 	public boolean isEmpty() {
 		return isEmpty;
 	}
+	
+	public boolean isTarget() {
+		return isTarget;
+	}
 	/*
 	 * Ends section for all getter methods
 	 */
@@ -132,6 +142,10 @@ public class BoardCell {
 	
 	public void setRoomName(String roomName) {
 		this.roomName = roomName;
+	}
+	
+	public void setIsTarget(boolean isTarget) {
+		this.isTarget = isTarget;
 	}
 	
 	public void setIsCenter(boolean isCenter) {
@@ -194,6 +208,8 @@ public class BoardCell {
 	
 	public void drawCell(Graphics g, int x, int y) {
 		Color color = Color.green;
+		this.width = x;
+		this.height = y;
 		if (isDoorway()) {
 			color = Color.blue;
 		} else if (isWalkway()) {
@@ -221,6 +237,11 @@ public class BoardCell {
 			g.setColor(Color.black);	// If the cell is "Unused" it will be blacked out.
 			g.fillRect(col * x, row * y, x, y);
 		}
+		if(isTarget()) {
+			g.setColor(Color.yellow);	// If the cell is a "target" it will become yellow
+			g.fillRect(col * x, row * y, x, y);
+		} 
+		
 	}
 	
 	public void drawRoom(Graphics g, int x, int y) {	// This function will print the room name where the label is supposed to be
@@ -228,6 +249,14 @@ public class BoardCell {
 		g.setColor(Color.black);
 		g.setFont(font);
 		g.drawString(roomName, col * x, row * y);
+	}
+	
+	public boolean containsClick(int mouseX, int mouseY) {
+		Rectangle rect = new Rectangle(col * width, row * height, width, height);
+		if (rect.contains(new Point(mouseX, mouseY))) {
+			return true;
+		}
+		return false;
 	}
 	
 	/*

@@ -120,7 +120,7 @@ public class GameSolutionTest {
 	@Test
 	void handleSuggestion() {
 		// Suggestion no one can disprove returns null
-		Integer aInt = 0;
+	    Integer aInt = 0;
 		Solution testSuggestion = new Solution(atriumCard, quinnCard, batCard);
 		ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", Color.gray, aInt, aInt);
 		testPlayer.clearHand();

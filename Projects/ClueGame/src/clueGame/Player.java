@@ -8,7 +8,7 @@ import java.util.Random;
 public abstract class Player {
 	private String name;
 	private Color color;
-	private Set<Card> hand = new HashSet<Card>();
+    private Set<Card> hand = new HashSet<Card>();
 	private Set<Card> seenCard = new HashSet<Card>();//public or private
 	protected int row, column;
 	private boolean hasSol = false;
@@ -17,7 +17,7 @@ public abstract class Player {
 		this.name = name;
 		this.color = color;
 		this.row = row;
-		this.column = column;
+	    this.column = column;
 	}
 	
 	public Card disproveSuggestion(Solution accusation) { //Takes in accusation
@@ -63,6 +63,13 @@ public abstract class Player {
 		return column;
 	}
 	
+	public void setPlayerRow(int row) {
+		this.row = row;
+	}
+	
+	public void setPlayerCol(int col) {
+		this.column = col;
+	}
 
 	public Set<Card> getSeenCard() {
 		return seenCard;

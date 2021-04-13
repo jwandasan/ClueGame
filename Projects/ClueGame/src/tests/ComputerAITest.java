@@ -36,7 +36,7 @@ public class ComputerAITest {
 	board.initialize();
 	board.initializeCards();
 	
-	deck = Board.getDeck();
+    deck = Board.getDeck();
 	testSolution = Board.getSolution();
 	batCard = new Card("Bat", CardType.WEAPON);
 	knifeCard = new Card("Knife", CardType.WEAPON);
@@ -101,7 +101,9 @@ public class ComputerAITest {
 		testPlayerOne.updateSeen(handgunCard);
 		testPlayerOne.updateSeen(swordCard);
 		testPlayerOne.updateSeen(hammerCard);
+		testPlayerOne.updateSeen(chelseaCard);
 		testPlayerOne.updateHand(panCard);
+		testPlayerOne.updateHand(alexCard);
 		testPlayerOne.createSuggestion();
 		testPlayerOne.chooseSolution(null, null, panCard);
 		assertEquals(testSolution.getWeapon(), panCard);
@@ -110,6 +112,9 @@ public class ComputerAITest {
 		testPlayerTwo.updateSeen(batCard);
 		testPlayerTwo.updateSeen(knifeCard);
 		testPlayerTwo.updateSeen(handgunCard);
+		testPlayerTwo.updateHand(hammerCard);
+		testPlayerTwo.updateHand(alexCard);
+		testPlayerTwo.updateHand(readingAreaCard);
 		testPlayerTwo.createSuggestion();
 		assertTrue(testPlayerTwo.getSolution().getWeapon() != batCard);
 		assertTrue(testPlayerTwo.getSolution().getWeapon() != knifeCard);

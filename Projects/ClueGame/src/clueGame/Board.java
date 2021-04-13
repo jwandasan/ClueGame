@@ -1,12 +1,18 @@
+
 package clueGame;
 
 import java.io.*;
 import java.util.*;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.*;
 import java.util.Map.Entry;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.util.*;
@@ -23,7 +29,7 @@ import expirement.TestBoardCell;
  * 
  */
 
-public class Board extends JPanel{
+public class Board extends JPanel implements MouseListener{
 	//Initialization of all variables
 	private static Board theInstance = new Board();
 	private BoardCell[][] grid;
@@ -33,9 +39,9 @@ public class Board extends JPanel{
 	private String name; 
 	private Room room = new Room(name);
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
-	private Map<Character, String> charToName = new HashMap<Character, String>();
+    private Map<Character, String> charToName = new HashMap<Character, String>();
 	private Map<Character, Room> roomMap = new HashMap<Character,Room>();
-	private static Set<BoardCell> targets = new HashSet<BoardCell>();
+	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<String> rooms = new HashSet<String>();
 	private Set<String> characters = new HashSet<String>();
 	private Set<String> weapons = new HashSet<String>();
@@ -45,7 +51,12 @@ public class Board extends JPanel{
 	private Map<String, ComputerPlayer> computers = new HashMap<String, ComputerPlayer>();
 	private ArrayList<Player> allPlayers = new ArrayList<Player>();
 	ArrayList<Card> copyDeck = new ArrayList<Card>();
-	private static Solution theAnswer = new Solution();
+    private static Solution theAnswer = new Solution();
+	private int xScale;
+	private int yScale;
+	private BoardCell moveCell;
+	private Player currentPlayer;
+	private boolean ifMoved = false;
 	private static final int MAX_PLAYERS = 6;
 	//private static Solution accusation = new Solution();
 	
@@ -116,7 +127,7 @@ public class Board extends JPanel{
 		return cell.getAdjList();
 	}
 	
-	public static Set<BoardCell> getTargets() {
+	public Set<BoardCell> getTargets() {
 		return targets;
 	}
 	
@@ -162,6 +173,7 @@ public class Board extends JPanel{
 	
 	public void initialize() throws FileNotFoundException, BadConfigFormatException{ //Loads files properly
 		loadConfigFiles();
+		addMouseListener(this);
 	}
 	public void initializeCards() {
 		loadCards();
@@ -383,7 +395,7 @@ public class Board extends JPanel{
 			doorwayAdjacency(cell, cellRow, cellCol);
 			// Taken from the regular walkway test because if a cell is a doorway, it is also a walkway
 			walkwayAdjacency(cell, cellRow, cellCol);
-		} else if(cell.isRoomCenter()) {	// Conditional to populate adjacency for a center to a room and it's doorways
+		} else if(cell.isRoomCenter() || cell.isRoom()) {	// Conditional to populate adjacency for a center to a room and it's doorways
 			roomAdjacency(cell, cellInitial);
 		}
 	}
@@ -621,25 +633,26 @@ public class Board extends JPanel{
 	 * 
 	 */
 	
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
 		int width = this.getWidth();
 		int height = this.getHeight();
 		
-		int x = width/numColumns;	// Gets the scalar for the width
-		int y = height/numRows;		// Gets the scalar for the height
+		xScale = width/numColumns;	// Gets the scalar for the width
+		yScale = height/numRows;		// Gets the scalar for the height
 		
 		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j < numColumns; j++) {
-				grid[i][j].drawCell(g, x, y);		// Handles drawing all of the cells
+				grid[i][j].drawCell(g, xScale, yScale);		// Handles drawing all of the cells
 				if(grid[i][j].isLabel()) {			// Handles drawing all of the labels, and rooms
-					grid[i][j].drawRoom(g, x, y);
+					grid[i][j].drawRoom(g, xScale, yScale);
 				}
 			}
 		}
 		for(int i = 0; i < allPlayers.size(); i++) {
-			drawPlayers(g, allPlayers.get(i), x, y);	// Handles drawing the players
+			drawPlayers(g, allPlayers.get(i), xScale, yScale);	// Handles drawing the players
 		}
 	}
 	
@@ -648,12 +661,96 @@ public class Board extends JPanel{
 		g.fillOval(aPlayer.getPlayerColumn() * x, aPlayer.getPlayerRow() * y, x, y); //Fills oval with color of the player
 	}
 	
-	public void drawTargets(Graphics g, Player aPlayer,int x, int y) {
-		g.setColor(Color.yellow);
-		for(BoardCell i: targets) {
-			g.fillRect(i.getCol(),i.getRow(),x,y);
+	public void drawTargets(BoardCell aCell, int roll, Player currentTurn) {
+		ifMoved = false;
+		this.currentPlayer = currentTurn;
+		calcTargetExecute(aCell, roll);
+		System.out.println(targets.size());
+		for(int i = 0; i < numRows; i ++) {
+			for(int j = 0; j < numColumns; j ++) {
+				if (targets.contains(grid[i][j])) {
+					grid[i][j].setIsTarget(true);
+					this.repaint();
+					if(grid[i][j].isRoomCenter()) {
+						for(int k = 0; k < numRows; k++) {
+							for(int l = 0; l < numColumns; l++) {
+								if (grid[k][l].getInitial() == grid[i][j].getInitial()) {
+									grid[k][l].setIsTarget(true);
+									this.repaint();
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		ifMoved = false;
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j < numColumns; j++) {
+				if(grid[i][j].containsClick(e.getX(), e.getY()) && grid[i][j].isTarget() && !(ifMoved)) {
+					if(grid[i][j].isRoom()) {
+						Room room = new Room(grid[i][j].getRoomName());
+						moveCell = room.getCenterCell();
+					}else {
+						moveCell = grid[i][j];
+					}
+					redrawCharacter();
+					ifMoved = true;
+					for(int k = 0; k < numRows; k++) {
+						for(int l = 0; l < numColumns; l++) {
+							grid[k][l].setIsTarget(false);
+						}
+					}
+					this.repaint();
+				}
+			}
+		}
+	}
+	
+	public void redrawCharacter() {
+	    currentPlayer.setPlayerCol(this.moveCell.getCol());
+		currentPlayer.setPlayerRow(this.moveCell.getRow());
+		this.repaint();
+	}
+	
+	public void redrawCharacter(Player currentPlayer, BoardCell moveCell) {
+		currentPlayer.setPlayerCol(moveCell.getCol());
+		currentPlayer.setPlayerRow(moveCell.getRow());
+		this.repaint();
+	}
+	
+	public void computerTargets(Player currentPlayer, int rollNum) {
+		BoardCell aCell = this.getCell(currentPlayer.getPlayerRow(), currentPlayer.getPlayerColumn());
+		calcTargetExecute(aCell, rollNum);
+		Random rand = new Random();
+		int choice = rand.nextInt(targets.size());
+		int iter = 0;
+		for(BoardCell i: targets) {
+			if (iter == choice) {
+				this.redrawCharacter(currentPlayer,i);
+			} else {
+				iter++;
+			}
+		}
+	}
+	
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+	
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
 	
 	/*
 	 * 
@@ -666,6 +763,6 @@ public class Board extends JPanel{
 		nextPlayer = allPlayers.get(turnNum);
 		return nextPlayer;
 	}
+
+
 }
-
-
