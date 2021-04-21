@@ -291,6 +291,8 @@ public class Board extends JPanel implements MouseListener{
 						cell.setIsWalkway(true);
 					} else if(labels[j].charAt(0) == 'X') {
 						cell.setIsEmpty(true);
+					} else {
+						cell.setIsRoom(true);
 					}
 					if(labels[j].length() > 1) {
 						switch(labels[j].charAt(1)) {
@@ -325,7 +327,6 @@ public class Board extends JPanel implements MouseListener{
 							room.setCenterCell(cell);
 							break;
 						}
-						
 						if(Character.isLetter(labels[j].charAt(1))) {
 							cell.setSecretPassage(labels[j].charAt(1));
 							cell.setIsSecret(true);
@@ -665,20 +666,15 @@ public class Board extends JPanel implements MouseListener{
 		ifMoved = false;
 		this.currentPlayer = currentTurn;
 		calcTargetExecute(aCell, roll);
-		System.out.println(targets.size());
-		for(int i = 0; i < numRows; i ++) {
-			for(int j = 0; j < numColumns; j ++) {
-				if (targets.contains(grid[i][j])) {
-					grid[i][j].setIsTarget(true);
-					this.repaint();
-					if(grid[i][j].isRoomCenter()) {
-						for(int k = 0; k < numRows; k++) {
-							for(int l = 0; l < numColumns; l++) {
-								if (grid[k][l].getInitial() == grid[i][j].getInitial()) {
-									grid[k][l].setIsTarget(true);
-									this.repaint();
-								}
-							}
+		for(BoardCell targetCell: targets) {
+			targetCell.setIsTarget(true);
+			this.repaint();
+			if(targetCell.isRoomCenter()) {
+				for(int i = 0; i < numRows; i++) {
+					for(int j = 0; j < numColumns; j++) {
+						if (targetCell.getInitial() == grid[i][j].getInitial()) {
+							grid[i][j].setIsTarget(true);
+							this.repaint();
 						}
 					}
 				}
@@ -690,13 +686,40 @@ public class Board extends JPanel implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		ifMoved = false;
+		/*
+		for(BoardCell aCell: targets) {
+			if(aCell.containsClick(e.getX(), e.getY()) && !(ifMoved) && aCell.isRoom()) {
+				System.out.println("This is a room target");
+				for(int i = 0; i < numRows; i++) {
+					for(int j = 0; j < numColumns; j++) {
+						
+					}
+				}
+			} else if(aCell.containsClick(e.getX(), e.getY()) && !(ifMoved) && !(aCell.isRoom())) {
+				System.out.println("This is a regular target");
+				
+				moveCell = aCell;
+				redrawCharacter();
+				ifMoved = true;
+			}
+			
+		}
+		if(ifMoved == true) {
+			for(int i = 0; i < numRows; i++) {
+				for(int j = 0; j < numColumns; j++) {
+					grid[i][j].setIsTarget(false);
+				}
+			}
+		}
+		this.repaint();
+		*/
 		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j < numColumns; j++) {
 				if(grid[i][j].containsClick(e.getX(), e.getY()) && grid[i][j].isTarget() && !(ifMoved)) {
 					if(grid[i][j].isRoom()) {
-						Room room = new Room(grid[i][j].getRoomName());
+						Room room = roomMap.get(grid[i][j].getInitial());
 						moveCell = room.getCenterCell();
-					}else {
+					} else {
 						moveCell = grid[i][j];
 					}
 					redrawCharacter();
@@ -710,6 +733,7 @@ public class Board extends JPanel implements MouseListener{
 				}
 			}
 		}
+		
 	}
 	
 	public void redrawCharacter() {
