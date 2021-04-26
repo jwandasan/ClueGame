@@ -1,15 +1,18 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Random;
 
 public abstract class Player {
+	private Board board = Board.getInstance();
 	private String name;
 	private Color color;
     private Set<Card> hand = new HashSet<Card>();
 	private Set<Card> seenCard = new HashSet<Card>();//public or private
+	private Set<Card> unSeenCards = new HashSet<Card>();
 	protected int row, column;
 	private boolean hasSol = false;
 	
@@ -22,7 +25,8 @@ public abstract class Player {
 	
 	public Card disproveSuggestion(Solution accusation) { //Takes in accusation
 		Card newCard = null;
-		for(Card iter: hand) { //iterates through hand
+		ArrayList<Card> copyDeck = Board.getCopyDeck();
+		for(Card iter: copyDeck) { //iterates through hand
 			if(iter.equals(accusation.getPerson())) { //Returns card if player holds card said in accusation
 				newCard = accusation.getPerson();
 			}
@@ -50,6 +54,22 @@ public abstract class Player {
 	public void updateHand(Card card) {
 		hand.add(card);
 	}
+	
+	public void setUnseen() {
+		Set<Card> deckOfCards = board.getDeck();
+		for(Card aCard: hand) {
+			for(Card cardTwo: deckOfCards) {
+				if(aCard != cardTwo) {
+					unSeenCards.add(cardTwo);
+				}
+			}
+		}
+	}
+	
+	public Set<Card> getUnseen() {
+		return unSeenCards;
+	}
+	
 	public String getPlayerName() {
 		return name;
 	}
@@ -86,5 +106,7 @@ public abstract class Player {
 	public Set<Card> getHand(){
 		return hand;
 	}
+	
+	
 	
 }

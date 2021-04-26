@@ -180,12 +180,6 @@ public class BoardCell {
 		this.doorDirection = direction;
 	}
 	
-	
-	public void setOccupied(boolean isOccupied) {
-		this.isOccupied = isOccupied;
-	}
-	
-
 	public void setSecretPassage(char sk) {
 		this.secretPassage = sk;
 	}

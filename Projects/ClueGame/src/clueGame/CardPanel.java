@@ -16,6 +16,7 @@ public class CardPanel extends JPanel {
 	private JPanel roomsSeen = new JPanel();
 	private JTextField weaponHand = new JTextField();
 	private JPanel weaponsSeen = new JPanel();
+	private static Board board = Board.getInstance();
 	
 	// Creates cards for testing
 	private static Card batCard = new Card("Bat", CardType.WEAPON);
@@ -52,6 +53,10 @@ public class CardPanel extends JPanel {
 		
 		panel = createWeaponPanel();
 		add(panel);
+		
+		HumanPlayer theHuman = board.getHuman();
+		updatePanel(theHuman);
+		
 	}
 	
 	private JPanel createPeoplePanel() {
@@ -66,6 +71,7 @@ public class CardPanel extends JPanel {
 		handPeoplePanel.setLayout(new GridLayout(2,0));
 		handPeoplePanel.setName("In Hand:");
 		handPeoplePanel.add(handPeopleLabel);
+		peopleHand.setEditable(false);
 		handPeoplePanel.add(peopleHand);
 		peoplePanel.add(handPeoplePanel);
 		
@@ -90,6 +96,7 @@ public class CardPanel extends JPanel {
 		handWeaponPanel.setLayout(new GridLayout(2,0));
 		handWeaponPanel.setName("In Hand:");
 		handWeaponPanel.add(handWeaponLabel);
+		roomHand.setEditable(false);
 		handWeaponPanel.add(roomHand);
 		roomPanel.add(handWeaponPanel);
 		
@@ -114,6 +121,7 @@ public class CardPanel extends JPanel {
 		handWeaponPanel.setLayout(new GridLayout(2,0));
 		handWeaponPanel.setName("In Hand:");
 		handWeaponPanel.add(handWeaponLabel);
+		weaponHand.setEditable(false);
 		handWeaponPanel.add(weaponHand);
 		weaponPanel.add(handWeaponPanel);
 		
@@ -127,19 +135,34 @@ public class CardPanel extends JPanel {
 		return weaponPanel;
 	}
 	
-	public JPanel addJTextField() {
-		JPanel panel = new JPanel();
-		
-		return panel;
+	public void updatePanel(Player aPlayer) {
+		Set<Card> currHand = aPlayer.getHand();
+		Set<Card> currSeen = aPlayer.getSeenCard();
+		for(Card aCard: currHand) {
+			if(aCard.getCardType() == CardType.PERSON) {
+				setPeopleHand(aCard);
+			} else if(aCard.getCardType() == CardType.WEAPON) {
+				setWeaponHand(aCard);
+			} else if(aCard.getCardType() == CardType.ROOM) {
+				setRoomHand(aCard);
+			}
+		}
+		setPeopleSeen(currSeen);
+		setWeaponSeen(currSeen);
+		setRoomSeen(currSeen);
 	}
 	
 	public void setPeopleHand(Card personCard) { //Sets the text for people
 		peopleHand.setEditable(false);
+		if(personCard == null) {
+			peopleHand.setText("None");
+		}
 		peopleHand.setText(personCard.getCardName());
 	}
 	
 	public void setPeopleSeen(Set<Card> peopleSeen) {
 		//Sets people seen values
+		this.peopleSeen.removeAll();
 		if(peopleSeen.isEmpty()) {
 			JTextField peopleText = new JTextField(5);
 			peopleText.setEditable(false);
@@ -161,12 +184,18 @@ public class CardPanel extends JPanel {
 	
 	public void setRoomHand(Card roomCard) {
 		//Writes the roomCard
+		roomHand.removeAll();
 		roomHand.setEditable(false);
+		if(roomCard == null) {
+			roomHand.setText("None");
+		}
+		
 		roomHand.setText(roomCard.getCardName());
 	}
 	
 	public void setRoomSeen(Set<Card> roomsSeen) {
 		//Sets rooms seen in a similar manner
+		this.roomsSeen.removeAll();
 		if(roomsSeen.isEmpty()) {
 			JTextField roomText = new JTextField(5);
 			roomText.setEditable(false);
@@ -187,16 +216,20 @@ public class CardPanel extends JPanel {
 	}
 	
 	public void setWeaponHand(Card weaponCard) {
+		weaponHand.removeAll();
 		weaponHand.setEditable(false);
+		if(weaponCard == null) {
+		}
 		weaponHand.setText(weaponCard.getCardName());
 	}
 	
 	public void setWeaponSeen(Set<Card> weaponsSeen) {
+		this.weaponsSeen.removeAll();
 		if(weaponsSeen.isEmpty()) {
 			JTextField weaponText = new JTextField(5);
 			weaponText.setEditable(false);
 			weaponText.setText("None");
-			this.roomsSeen.add(weaponText, BorderLayout.PAGE_END);
+			this.weaponsSeen.add(weaponText, BorderLayout.PAGE_END);
 		} else {
 			for(Card aCard: weaponsSeen) {
 				if(aCard.getCardType() == CardType.WEAPON) {

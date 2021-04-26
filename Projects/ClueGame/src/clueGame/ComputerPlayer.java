@@ -60,6 +60,7 @@ public class ComputerPlayer extends Player{
 		}
 		
 		//Gets a random card from unseen arraylist
+		
 		randWeapon = unSeenWeapons.get(rand.nextInt(unSeenWeapons.size()));
 		randPerson = unSeenPeople.get(rand.nextInt(unSeenPeople.size()));
 		randRoom = unSeenRooms.get(rand.nextInt(unSeenRooms.size()));

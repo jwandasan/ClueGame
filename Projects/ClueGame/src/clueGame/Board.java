@@ -1,23 +1,32 @@
 
 package clueGame;
 
-import java.io.*;
-import java.util.*;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.*;
-import java.util.Map.Entry;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.Set;
 
-import javax.swing.JOptionPane;
+import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
-
-import java.util.*;
-
-import expirement.TestBoardCell;
+import javax.swing.JTextField;
 
 /**
  * Board Class
@@ -33,31 +42,61 @@ public class Board extends JPanel implements MouseListener{
 	//Initialization of all variables
 	private static Board theInstance = new Board();
 	private BoardCell[][] grid;
+	private BoardCell moveCell;
+	
+	// Ints
 	private int numRows , numColumns;
+	private int xScale;
+	private int yScale;
+	
+	// Strings
 	private String layoutConfigFile; // Filename
 	private String setupConfigFile; // Filename
 	private String name; 
+	private String roomName;
+	
+	// Room
 	private Room room = new Room(name);
+	
+	// ArrayLists
+	private ArrayList<Player> allPlayers = new ArrayList<Player>();
+	public static ArrayList<Card> copyDeck = new ArrayList<Card>();
+	
+	// Sets
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
-    private Map<Character, String> charToName = new HashMap<Character, String>();
-	private Map<Character, Room> roomMap = new HashMap<Character,Room>();
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<String> rooms = new HashSet<String>();
 	private Set<String> characters = new HashSet<String>();
 	private Set<String> weapons = new HashSet<String>();
 	private static Set<Card> deckOfCards = new HashSet<Card>();
+	
+	// Maps
+	private Map<Character, String> charToName = new HashMap<Character, String>();
+	private Map<Character, Room> roomMap = new HashMap<Character,Room>();
+	private Map<String, ComputerPlayer> computers = new HashMap<String, ComputerPlayer>();
+	
+	// Players
 	private HumanPlayer human;
 	private ComputerPlayer computer;
-	private Map<String, ComputerPlayer> computers = new HashMap<String, ComputerPlayer>();
-	private ArrayList<Player> allPlayers = new ArrayList<Player>();
-	ArrayList<Card> copyDeck = new ArrayList<Card>();
-    private static Solution theAnswer = new Solution();
-	private int xScale;
-	private int yScale;
-	private BoardCell moveCell;
 	private Player currentPlayer;
+	
+	// Booleans
 	private boolean ifMoved = false;
-	private static final int MAX_PLAYERS = 6;
+	
+	// Solution
+	private static Solution theAnswer = new Solution();
+	
+	// JPanel/Frame/Swing
+	private GameControlPanel theGameControlPanel;
+	private CardPanel theCardPanel;
+	private JDialog suggestionFrame = new JDialog();
+	private JComboBox<String> peopleCombo = new JComboBox<String>();
+	private JComboBox<String> weaponsCombo = new JComboBox<String>();
+	private JTextField currentRoom = new JTextField(10);
+	private JPanel comboPanel = new JPanel();
+	private JPanel textPanel = new JPanel();
+	private JPanel buttonPanel = new JPanel();
+
 	//private static Solution accusation = new Solution();
 	
 	private Board() {
@@ -88,6 +127,10 @@ public class Board extends JPanel implements MouseListener{
 
 	public int getNumColumns() {
 		return numColumns;
+	}
+	
+	public static ArrayList<Card> getCopyDeck(){
+		return copyDeck;
 	}
 	
 
@@ -138,6 +181,23 @@ public class Board extends JPanel implements MouseListener{
 	public ArrayList<Player> getAllPlayers(){
 		return allPlayers;
 	}
+	
+	
+	public GameControlPanel getGameControlPanel() {
+		return theGameControlPanel;
+	}
+	
+	public CardPanel getCardPanel() {
+		return theCardPanel;
+	}
+	public String getSuggPerson() {
+		return (String) peopleCombo.getSelectedItem();
+	}
+	
+	public String getSuggWeapon() {
+		return (String) weaponsCombo.getSelectedItem();
+	}
+	
 	/*
 	 * Ends section for all getter methods
 	 */
@@ -161,6 +221,14 @@ public class Board extends JPanel implements MouseListener{
 		this.numColumns = numColumns;
 	}
 	
+	public void setGameControlPanel(GameControlPanel thePanel) {
+		this.theGameControlPanel = thePanel;
+	}
+	
+	public void setCardPanel(CardPanel thePanel) {
+		this.theCardPanel = thePanel;
+	}
+	
 	/*
 	 * Ends Section for all setters
 	 */
@@ -175,6 +243,7 @@ public class Board extends JPanel implements MouseListener{
 		loadConfigFiles();
 		addMouseListener(this);
 	}
+	
 	public void initializeCards() {
 		loadCards();
 		setupSolution();
@@ -386,6 +455,7 @@ public class Board extends JPanel implements MouseListener{
 	 * Beginning of section of Code includes everything associated with calcAdjacency
 	 * 
 	 */
+	
 	public void calcAdjacency(BoardCell cell) {
 		int cellRow = cell.getRow();
 		int cellCol = cell.getCol();
@@ -604,8 +674,7 @@ public class Board extends JPanel implements MouseListener{
 		return verified;
 	}
 	
-	
-	public Card handleSuggestion() {
+	public Card handleSuggestion() { //Handles main solution
 		ArrayList<Card> yesNo = new ArrayList<Card>();
 		boolean noOne = true;
 		Card returnCard = null;
@@ -622,6 +691,217 @@ public class Board extends JPanel implements MouseListener{
 			returnCard = yesNo.get(0);
 		}
 		return returnCard;
+	}
+	
+	public Map<Player,Card> handleSuggestionHuman(Solution currentSuggestion) { //handles suggestion for Human player (returns player); // make player a map or arrayList to hold all the disprovers
+		Map<Player,Card>disprove = new HashMap<Player,Card>();
+		Map<Player,Card>playerAndCard = new HashMap<Player,Card>();
+		boolean noOne = true;
+		Player disprover = null;
+		for(Player iter: allPlayers) {
+			if(iter.disproveSuggestion(currentSuggestion) != null) {
+				disprover = iter;
+				disprove.put(iter, iter.disproveSuggestion(currentSuggestion));
+				noOne = false;
+			}else {
+				continue;
+			}
+		}
+		if(noOne == false) {
+			playerAndCard.put(disprover, disprove.get(disprover));
+		}
+		return playerAndCard;
+	}
+	
+	public boolean handleSuggestionComputer(Solution currentSuggestion) { //Handles suggestion for online player (returns boolean value)
+		boolean noOne = true;
+		for(Player iter: allPlayers) {
+			if(iter.disproveSuggestion(currentSuggestion) != null) {
+				noOne = false;
+			}else {
+				continue;
+			}
+		}
+		return noOne;
+	}
+	
+	public void callforSuggestion() {
+		BoardCell check = theInstance.getCell(currentPlayer.getPlayerRow(),currentPlayer.getPlayerColumn());
+		if(check.isRoom()) {
+			makeSuggestion(check.getRoomName());
+		}
+	}
+	
+	public void makeSuggestion(String roomName) {
+		this.roomName = roomName;
+		
+		//peopleCombo.removeAllItems();
+		//weaponsCombo.removeAllItems();
+		//Code for popup "Make suggestion" instead of "make accusation"
+		//take suggestion and take the suggested person and move to said room
+		//Sets up suggestionFrame0
+		suggestionFrame.setSize(400, 200);
+		suggestionFrame.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		suggestionFrame.setTitle("Make a suggestion");
+		suggestionFrame.setLayout(new GridLayout(2,0));
+		
+		// Creates and sets up the buttons
+		JButton submitButton = new JButton("Submit");
+		JButton cancelButton = new JButton("Cancel");
+		submitButton.addActionListener(new SubmitButtonListener());
+		cancelButton.addActionListener(new CancelButtonListener());
+		
+		// Create panels to hold textfields and combo boxes
+		
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		buttonPanel.add(submitButton);
+		buttonPanel.add(cancelButton);
+		
+
+		textPanel.setLayout(new GridLayout(3,0));
+		
+		
+		comboPanel.setLayout(new GridLayout(3,0));
+		
+		
+		Set<Card> handOfCards = currentPlayer.getHand();
+		
+		// Creates JTextFields to "Title the combo boxes"
+		JTextField peopleText = new JTextField(10);
+		peopleText.setText("People");
+		peopleText.setEditable(false);
+		JTextField weaponText = new JTextField(10);
+		weaponText.setText("Weapons");
+		weaponText.setEditable(false);
+		JTextField roomText = new JTextField(10);
+		roomText.setText("Room");
+		roomText.setEditable(false);
+		
+		// Creates the Combo boxes for the menu
+		currentRoom.setEditable(false);
+		
+		// Populates the combo boxes with the correct cards
+		
+		/**
+		for(Card aCard: handOfCards) {
+			if(aCard.getCardType() == CardType.PERSON) {
+				peopleCombo.addItem(aCard.getCardName());
+			} else if(aCard.getCardType() == CardType.WEAPON) {
+				weaponsCombo.addItem(aCard.getCardName());
+			} 
+		}
+		**/
+		
+		for(Card aCard: deckOfCards) {
+			if((!handOfCards.contains(aCard)) && (aCard.getCardType() == CardType.PERSON)) {
+				peopleCombo.addItem(aCard.getCardName());
+			}else if((!handOfCards.contains(aCard)) && (aCard.getCardType() == CardType.WEAPON)) {
+				weaponsCombo.addItem(aCard.getCardName());
+			}else {
+				continue;
+			}
+		}
+		
+		currentRoom.setText(roomName);
+		textPanel.add(roomText);
+		textPanel.add(peopleText);
+		textPanel.add(weaponText);
+		comboPanel.add(currentRoom);
+		comboPanel.add(peopleCombo);
+		comboPanel.add(weaponsCombo);
+		
+		suggestionFrame.add(textPanel);
+		suggestionFrame.add(comboPanel);
+		suggestionFrame.add(buttonPanel);
+		
+		
+		suggestionFrame.setVisible(true);
+		
+	}
+	
+	public void clearPanel() {
+		comboPanel.removeAll();
+		textPanel.removeAll();
+		buttonPanel.removeAll();
+	}
+	
+		
+	public class SubmitButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			suggestionFrame.setVisible(false);
+			suggestionFrame.dispose();
+			clearPanel();
+			Card weaponCard = null;
+			Card personCard = null;
+			Card roomCard = null;
+			Room theRoom = null;
+			Player playerToMove = null;
+			String suggPerson = (String) peopleCombo.getSelectedItem();
+			String suggWeapon = (String) weaponsCombo.getSelectedItem();
+			String suggRoom = "";
+			Solution currentSuggestion = new Solution();
+			Map<Player,Card> disproven = null;
+			Player disprover = null;
+			Card disprovedWith = null;
+			
+			for(Card aCard: deckOfCards) {
+				if(currentRoom.getText() == aCard.getCardName()) {
+					roomCard = aCard;
+				} if(suggPerson == aCard.getCardName()) {
+					personCard = aCard;
+				} if(suggWeapon == aCard.getCardName()) {
+					weaponCard = aCard;
+				}
+			}
+			suggRoom = currentRoom.getText();
+			
+			theGameControlPanel.setGuess(suggPerson + ", " + suggWeapon + ", " + suggRoom);
+			
+			for(Map.Entry<Character, Room> aRoom: roomMap.entrySet()) {
+				if(roomName == aRoom.getValue().getName()) {
+					theRoom = aRoom.getValue();
+				}
+			}
+			
+			for(int i = 0; i < allPlayers.size(); i++) {
+				if(allPlayers.get(i).getPlayerName() == personCard.getCardName()) {
+					playerToMove = allPlayers.get(i);
+				}
+			}
+			BoardCell moveCell = theInstance.getCell(theRoom.getCenterCell().getRow(), theRoom.getCenterCell().getCol());
+			redrawCharacter(playerToMove, moveCell);
+			setOccupied();
+			
+			currentSuggestion.setPerson(personCard);
+			currentSuggestion.setWeapon(weaponCard);
+			currentSuggestion.setRoom(roomCard);
+			
+			disproven = handleSuggestionHuman(currentSuggestion);
+			for(Map.Entry<Player,Card> aPlayerEntry: disproven.entrySet()) {
+				human.updateSeen(aPlayerEntry.getValue());
+			}
+			for(Map.Entry<Player,Card>iter: disproven.entrySet()) {
+				disprover = iter.getKey();
+				disprovedWith = iter.getValue();
+				break;
+			}
+			theGameControlPanel.setGuessResult(disprover.getPlayerName() + " " + " disproved you with " + disprovedWith.getCardName() + "'s card.");
+			theGameControlPanel.setLastDidSuggestion(true);
+		}
+		
+	}
+	
+	private class CancelButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			suggestionFrame.setVisible(false);
+			suggestionFrame.dispose();
+			clearPanel();
+		}
+		
 	}
 	
 	/*
@@ -657,10 +937,20 @@ public class Board extends JPanel implements MouseListener{
 		}
 	}
 	
+	
 	public void drawPlayers(Graphics g, Player aPlayer , int x, int y) { 
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(new File("data/data/strawberry.png"));
+		}catch(IOException e) {}
+		//Graphics l = (Graphics) img;
 		g.setColor(aPlayer.getPlayerColor()); 			// Collects players color
 		g.fillOval(aPlayer.getPlayerColumn() * x, aPlayer.getPlayerRow() * y, x, y); //Fills oval with color of the player
+		g.drawImage(img, aPlayer.getPlayerColumn() * x, aPlayer.getPlayerRow() * y, 20, 20, aPlayer.getPlayerColor(), this);
+		
 	}
+	
+	
 	
 	public void drawTargets(BoardCell aCell, int roll, Player currentTurn) {
 		ifMoved = false;
@@ -686,44 +976,21 @@ public class Board extends JPanel implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		ifMoved = false;
-		/*
-		for(BoardCell aCell: targets) {
-			if(aCell.containsClick(e.getX(), e.getY()) && !(ifMoved) && aCell.isRoom()) {
-				System.out.println("This is a room target");
-				for(int i = 0; i < numRows; i++) {
-					for(int j = 0; j < numColumns; j++) {
-						
-					}
-				}
-			} else if(aCell.containsClick(e.getX(), e.getY()) && !(ifMoved) && !(aCell.isRoom())) {
-				System.out.println("This is a regular target");
-				
-				moveCell = aCell;
-				redrawCharacter();
-				ifMoved = true;
-			}
-			
-		}
-		if(ifMoved == true) {
-			for(int i = 0; i < numRows; i++) {
-				for(int j = 0; j < numColumns; j++) {
-					grid[i][j].setIsTarget(false);
-				}
-			}
-		}
-		this.repaint();
-		*/
+		
 		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j < numColumns; j++) {
 				if(grid[i][j].containsClick(e.getX(), e.getY()) && grid[i][j].isTarget() && !(ifMoved)) {
 					if(grid[i][j].isRoom()) {
 						Room room = roomMap.get(grid[i][j].getInitial());
 						moveCell = room.getCenterCell();
+						makeSuggestion(grid[i][j].getRoomName());
 					} else {
 						moveCell = grid[i][j];
 					}
 					redrawCharacter();
+					setOccupied();
 					ifMoved = true;
+					theGameControlPanel.setUnfinished(false);
 					for(int k = 0; k < numRows; k++) {
 						for(int l = 0; l < numColumns; l++) {
 							grid[k][l].setIsTarget(false);
@@ -733,12 +1000,18 @@ public class Board extends JPanel implements MouseListener{
 				}
 			}
 		}
-		
 	}
 	
+	public void setOccupied() {
+		for(int i = 0; i < allPlayers.size(); i++) {
+			grid[allPlayers.get(i).getPlayerRow()][allPlayers.get(i).getPlayerColumn()].setIsOccupied(true);
+		}
+	}
+	
+	
 	public void redrawCharacter() {
-	    currentPlayer.setPlayerCol(this.moveCell.getCol());
-		currentPlayer.setPlayerRow(this.moveCell.getRow());
+		currentPlayer.setPlayerCol(moveCell.getCol());
+		currentPlayer.setPlayerRow(moveCell.getRow());
 		this.repaint();
 	}
 	
@@ -757,12 +1030,56 @@ public class Board extends JPanel implements MouseListener{
 		for(BoardCell i: targets) {
 			if (iter == choice) {
 				this.redrawCharacter(currentPlayer,i);
+				if(i.isRoom()) {
+					Random randTwo = new Random();
+					Set<Card> unSeenCards = currentPlayer.getUnseen();
+					int randVal = rand.nextInt(unSeenCards.size());
+					int iterTwo = 0;
+					Card randPerson = null;
+					Card randWeapon = null;
+					Card randRoom = null;
+					for(Card card: unSeenCards) {
+						if(iter == randVal && card.getCardType() == CardType.PERSON) {
+							randPerson = card;
+							iterTwo++;
+						}
+					}
+					iterTwo = 0;
+					for(Card card: unSeenCards) {
+						if(iter == randVal && card.getCardType() == CardType.WEAPON) {
+							randWeapon = card;
+							iterTwo++;
+						}
+					}
+					iterTwo = 0;
+					for(Card card: unSeenCards) {
+						if(iter == randVal && card.getCardType() == CardType.ROOM) {
+							randRoom = card;
+							iterTwo++;
+						}
+					}
+					Solution computerSuggestion = new Solution() ;
+					computerSuggestion.setWeapon(randWeapon);
+					computerSuggestion.setRoom(randRoom);
+					computerSuggestion.setPerson(randPerson);
+					handleSuggestionComputer(computerSuggestion);
+				}
 			} else {
 				iter++;
 			}
 		}
 	}
 	
+	/*
+	public void makeSound() throws UnsupportedAudioFileException, LineUnavailableException {
+		InputStream sound;
+		try {
+			sound = new FileInputStream(new File("data/oldhoodies.wav"));
+			AudioStream music = new AudioStream(sound);
+			AudioPlayer.player.start(music);
+		}catch(Exception e) {}
+	}
+	*/
 
 	@Override
 	public void mousePressed(MouseEvent e) {}
