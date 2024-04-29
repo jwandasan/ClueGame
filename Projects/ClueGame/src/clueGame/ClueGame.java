@@ -41,8 +41,8 @@ public class ClueGame extends JFrame {
 		setVisible(true);	// Makes the frame visible
 		
 	
-		PlayMusic soundPlayer = new PlayMusic();
-		soundPlayer.play();
+		//PlayMusic soundPlayer = new PlayMusic();
+		//soundPlayer.play();
 		
 		
 	}
